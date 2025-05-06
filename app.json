@@ -1,0 +1,41 @@
+{
+  "name": "Wenzischool App",
+  "slug": "wenzischool",
+  "description": "WenziSchool : plateforme d'actualités sur les écoles à Kinshasa.",
+  "owner": "manzowa",
+  "version": "1.0.0",
+  "sdkVersion": "53.0.0",
+  "platforms": [
+    "ios",
+    "android",
+    "web"
+  ],
+  "orientation": "portrait",
+  "icon": "./assets/images/icon.png",
+  "splash": {
+    "image": "./assets/images/splash-icon.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#ffffff"
+  },
+  "updates": {
+    "fallbackToCacheTimeout": 0
+  },
+  "runtimeVersion": "53.0.0",
+  "assetBundlePatterns": [
+    "**/*"
+  ],
+  "android": {
+    "package": "com.manzowa.wenzischool",
+    "edgeToEdgeEnabled": true
+  },
+  "plugins": [
+    "expo-font",
+    "expo-web-browser",
+    "expo-router"
+  ],
+  "extra": {
+    "eas": {
+      "projectId": "ab3b39e1-9899-417c-9140-0f0c89b70679"
+    }
+  }
+}
