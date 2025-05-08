@@ -93,7 +93,7 @@ export const SchoolCoordonnee = (props: SchoolCoordonneeType) => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle children={"Coordonnée de l'établissement"}  />
+                <CardTitle children={"Informations de localisation et de contact"}  />
             </CardHeader>
             <CardBody>
                 {school?.adresses ? _Adresses(school?.adresses) : false}

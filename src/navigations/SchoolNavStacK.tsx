@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomeScreen, SearchScreen, NewsScreen } from "@/screens";
+import { HomeScreen, SearchScreen} from "@/screens";
 import { Colors } from '@/constants';
 import { IconCustom, NavBottomTabListType } from "@/utils";
 
@@ -50,19 +50,6 @@ export function SchoolNavStacK() {
             />
           ),
         }}
-      />
-      <Tab.Screen 
-        name="News" component={NewsScreen}
-        options={{ 
-          title: 'Info Ecole' ,
-          tabBarIcon: ({ color, focused }) => (
-            <IconCustom 
-              iconName={"Ionicons"} 
-              source={focused ? 'school-sharp' : 'school-outline'} 
-              color={color} size={24} 
-            />
-          ), 
-        }} 
       />
     </Tab.Navigator>
   );

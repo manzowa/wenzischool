@@ -19,20 +19,13 @@ export function GistWidget({navigation}: GistWidgetProp) {
     <Widget style={s.gistContainer}>
       <TextCustom 
         color={"secondary"} 
-        children={"L'essentiel sur nos écoles"} 
+        children={"Découvrez l'essentiel de nos écoles"} 
       />
       <View style={s.gistContent}>
         <TouchableOpacity onPress={onPressSearchHandler}>
           <IconCustom
             iconName={"Ionicons"}
             source={"search"}
-            style={s.gistRoundedIcon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onPressSchoolHandler} >
-          <IconCustom
-            iconName={"Ionicons"}
-            source={"school"}
             style={s.gistRoundedIcon}
           />
         </TouchableOpacity>

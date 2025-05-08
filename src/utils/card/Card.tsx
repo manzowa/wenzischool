@@ -109,7 +109,7 @@ const s = StyleSheet.create({
     },
     cardtitle: {
         padding: 10,
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: 'bold',
         fontFamily: 'Comfortaa-Bold',
         color: Colors.primary,

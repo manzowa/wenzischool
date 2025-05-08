@@ -9,7 +9,7 @@ export function WelcomeWidget() {
             <TextCustom color={"light"} children={"Salut,"} type={"caption"}  />
             <TextCustom 
                 color={"light"} 
-                children={"Infomez-vous sur vos écoles"} 
+                children={"Renseignez-vous sur vos écoles préférées"} 
                 type={"caption"}  
             />
         </Widget>

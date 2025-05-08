@@ -14,7 +14,7 @@ export function SchoolItemWidget({ navigation, data }: SchoolItemProp) {
     <Widget style={s.container}>
       <TextCustom
         color={"secondary"}
-        children={"Ajouté recemment"}
+        children={"Récemment ajouté"}
       />
       {
         data.map((school) => (
