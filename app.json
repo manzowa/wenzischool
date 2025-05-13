@@ -1,7 +1,7 @@
 {
   "name": "Wenzischool App",
   "slug": "wenzischool",
-  "description": "WenziSchool : plateforme d'actualités sur les écoles à Kinshasa.",
+  "description": "Wenzischool affiche écoles de Kinshasa et coordonnées",
   "owner": "manzowa",
   "version": "1.0.0",
   "sdkVersion": "53.0.0",
