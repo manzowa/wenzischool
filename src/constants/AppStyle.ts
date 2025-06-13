@@ -9,5 +9,19 @@ export const AppStyle = StyleSheet.create({
         top: 0,
         left: 0,
         zIndex:-1
+    },
+    bg: {
+       flex: 1
+    },
+    safeArea : {
+        flex: 1
+    },
+    logo: {
+        width: 220,
+        height: 40
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        justifyContent: 'center',
     }
 });

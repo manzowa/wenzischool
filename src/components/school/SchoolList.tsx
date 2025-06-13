@@ -1,65 +1,72 @@
-import React from "react";
-import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
+import React, { useCallback, useMemo } from "react";
+import { 
+  StyleSheet, View, FlatList, TouchableOpacity, 
+  RefreshControl, RefreshControlProps 
+} from "react-native";
 import { SchoolItem } from "./SchoolItem";
 import { SchoolType } from "@/utils/types";
 
-type SchoolListProp =  {
+type SchoolListProp = {
   text: string;
   setText: Function;
   setClicked: Function;
   data: Array<SchoolType>;
-  navigation?: any
+  navigation?: any;
+  refreshControl?: React.ReactElement<RefreshControlProps, typeof RefreshControl>;
 };
-export const SchoolList = ({text, setClicked, data, navigation }: SchoolListProp) => {
-  const renderItem = (item: SchoolType): any => {
-    // when no input, show all
+
+export const SchoolList = ({
+  text,
+  setClicked,
+  data,
+  navigation,
+  refreshControl, // <- réception de la prop
+}: SchoolListProp) => {
+  
+  const filteredData = useMemo(() => {
     if (text === "") {
-      return (
-        <TouchableOpacity 
-          key={item.id.toString()} 
-          onPress={() => {
-            navigation.navigate("School", {schoolId: item.id});
-          }}
-        >
-          <SchoolItem {...item} />
-        </TouchableOpacity>
-      );
+      return data;
     }
-    // filter of bay name
-    if (
-      item.nom
-        .toUpperCase()
-        .includes(text.toUpperCase().trim().replace(/\s/g, ""))
-    ) {
-      return (
-        <TouchableOpacity 
-          key={item.id.toString()} 
-          onPress={() => {
-            navigation.navigate("School", {schoolId: item.id});
-          }}
-        >
-          <SchoolItem {...item} />
-        </TouchableOpacity>
-      );
-    }
-  };
+    return data.filter(item =>
+      item.nom.toUpperCase().includes(text.toUpperCase().trim().replace(/\s/g, ""))
+    );
+  }, [text, data]);
+
+  const renderItem = useCallback(
+    ({ item }: { item: SchoolType }) => (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("School", { schoolId: item.id });
+        }}
+      >
+        <SchoolItem {...item} />
+      </TouchableOpacity>
+    ),
+    [navigation]
+  );
+
   return (
     <View style={s.container}>
       <View style={s.content} onStartShouldSetResponder={() => setClicked(false)}>
         <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => renderItem(item)}
+          data={filteredData}
+          keyExtractor={(item) => item.id.toString()}  // <- Ici ta clé unique
+          renderItem={renderItem}
+          refreshControl={refreshControl}
         />
       </View>
     </View>
   );
 };
+
 const s = StyleSheet.create({
   container: {
     padding: 5,
-    margin: 5,
-    width: "100%",
+    marginLeft: 0,
+    marginRight: 10,
+    marginVertical: 10
   },
-  content: {}
+  content: {
+    marginLeft: 0,
+  },
 });

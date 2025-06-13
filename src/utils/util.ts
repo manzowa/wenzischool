@@ -1,5 +1,6 @@
 import { SchoolType } from "./types";
 import { Options } from "@/constants";
+import * as CryptoJS from 'crypto-js';
 /**
  * @function capitalize
  * @author Christian Shungu <christianshungu@google.com>
@@ -83,4 +84,8 @@ export function getArrayLogo(data: any[]) {
         return data.filter((d: any) => d.filename.includes('logo'));
     }
     return [];
+}
+export function generateUniqueString(key: string) {
+  const hash = CryptoJS.SHA256(key);
+  return hash.toString(CryptoJS.enc.Hex);
 }

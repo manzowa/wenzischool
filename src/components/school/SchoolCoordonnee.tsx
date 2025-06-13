@@ -1,6 +1,4 @@
-import {
-    StyleSheet
-} from "react-native";
+import { StyleSheet } from "react-native";
 import {
     Card, CardHeader, CardTitle,
     CardRow, CardBody
@@ -11,105 +9,96 @@ import { ButtonLink } from "@/utils/button";
 import { formatAdresse } from "@/utils/util";
 import { Colors } from "@/constants";
 
-
 type SchoolCoordonneeType = {
-    school?: SchoolType
-}
-export const SchoolCoordonnee = (props: SchoolCoordonneeType) => {
-    const { school } = props;
-    const _Adresses = (adresses: []) => {
-        return ( 
-          adresses.length > 0 &&
-          adresses.map((adresse: SchoolType["adresses"], index: number) => (
-            <CardRow key={index}>
-              <IconCustom
-                iconName={"FontAwesome6"}
-                size={24}
-                color={Colors.primary}
-                source={"diamond-turn-right"}
-              />
-              <TextCustom 
-                children={formatAdresse(adresse)}
-                type={'caption'} color={"secondary"} 
+    school?: SchoolType;
+};
+
+// Fonction générique pour rendre les informations de contact
+const renderContactInfo = (
+    iconName: string,
+    source: string,
+    text: string | React.ReactNode,
+    button?: boolean,
+    key?: React.Key
+) => (
+    <CardRow key={key}>
+        <IconCustom
+            iconName={iconName}
+            size={24}
+            color={Colors.primary}
+            source={source}
+        />
+        {button ? (
+            <ButtonLink
+                url={text as string}
+                children={"Aller sur le site"}
+                style={s.button}
+            />
+        ) : (
+            <TextCustom
+                children={text}
+                type={"caption"}
+                color={"secondary"}
                 style={s.text}
-              />
-            </CardRow>
-          ))
-        );
-    };
-    const _Phone = (telephone: string) => {
-        return (
-          <CardRow>
-            <IconCustom
-              iconName={"MaterialIcons"}
-              size={24}
-              color={Colors.primary}
-              source={"local-phone"}
             />
-            <TextCustom 
-              children={telephone}
-              type={'caption'} color={"secondary"} 
-              style={s.text}
-            />
-          </CardRow>
-        )
-    };
-    const _Email = (email: string) => {
-        return (
-          <CardRow>
-            <IconCustom
-              iconName={"MaterialCommunityIcons"}
-              size={24}
-              color={Colors.primary}
-              source={"email"}
-            />
-            <TextCustom 
-              children={email}
-              type={'caption'} color={"secondary"} 
-              style={s.text}
-            />
-          </CardRow>
-        )
-    };
-    const _Site = (site: string) => {
-        return (
-          <CardRow>
-            <IconCustom
-              iconName={"MaterialCommunityIcons"}
-              size={24}
-              color={Colors.primary}
-              source={"web"}
-            />
-            {site && (
-              <ButtonLink 
-                url={site} 
-                children={"Aller sur le site"} 
-                style={s.button} 
-              />
-            )}
-          </CardRow>
-        )
-    };
+        )}
+    </CardRow>
+);
+
+export const SchoolCoordonnee = ({ school }: SchoolCoordonneeType) => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle children={"Informations de localisation et de contact"}  />
+                <CardTitle children={"Informations de localisation et de contact"} />
             </CardHeader>
             <CardBody>
-                {school?.adresses ? _Adresses(school?.adresses) : false}
-                {school?.telephone ? _Phone(school?.telephone) : false}
-                {school?.email? _Email(school?.email): false}
-                {school?.site? _Site(school?.site): false}
+                {school?.adresses?.length > 0 &&
+                    school?.adresses.map((adresse: any[], index: number) =>
+                        renderContactInfo(
+                            "FontAwesome6",
+                            "diamond-turn-right",
+                            formatAdresse(adresse),
+                            false,
+                            `adresse-${index}`
+                        )
+                    )}
+
+                {school?.telephone &&
+                    renderContactInfo(
+                        "MaterialIcons",
+                        "local-phone",
+                        school.telephone,
+                        false,
+                        "telephone"
+                    )}
+
+                {school?.email &&
+                    renderContactInfo(
+                        "MaterialCommunityIcons",
+                        "email",
+                        school.email,
+                        false,
+                        "email"
+                    )}
+
+                {school?.site &&
+                    renderContactInfo(
+                        "MaterialCommunityIcons",
+                        "web",
+                        school.site,
+                        true,
+                        "site"
+                    )}
             </CardBody>
         </Card>
     );
-}
+};
+
 const s = StyleSheet.create({
-    card: {
-    },
+    card: {},
     text: {
         flex: 2,
-        color: Colors.secondary
+        color: Colors.secondary,
     },
     button: {
         backgroundColor: Colors.primary,
@@ -118,8 +107,8 @@ const s = StyleSheet.create({
         elevation: 4,
         shadowColor: Colors.dark,
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,

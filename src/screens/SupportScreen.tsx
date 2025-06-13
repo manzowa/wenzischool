@@ -6,51 +6,49 @@ import { ButtonLink } from "@/utils/button";
 
 export function  SupportScreen() {
     return(
-        <SafeAreaProvider>
-            <SafeAreaView style={s.area}>
-                <ImageBackground source={Images.background} style={AppStyle.background}>
-                    <View style={s.container}>
-                        <View style={s.assistance}>
-                            <View style={s.info}>
-                                <IconCustom 
-                                    iconName={"AntDesign"} 
-                                    source={'customerservice'} 
-                                    color={Colors.light} 
-                                    size={55}
-                                    style={s.icon} 
-                                />
-                                <TextCustom 
-                                    children={"Besoin d'aide ? Nous sommes là pour vous aider."}
-                                    color={"secondary"}
-                                    type={"caption"}
-                                />
-                            </View>
-                            <View style={s.faq}>
-                                <TextCustom 
-                                    children={"Foire aux questions (FAQ)"}
-                                    type={"bodyBold"} 
-                                />
-                                <TextCustom 
-                                    children={"Comment contacter le support technique ?"}
-                                    color={"secondary"}
-                                    type={"caption"}
-                                />
-                                <TextCustom 
-                                    children={"Comment modifier les infos de l'école ?"}
-                                    color={"secondary"}
-                                    type={"caption"}
-                                />
-                                <ButtonLink 
-                                    url={"https://manzowa.com/contact"} 
-                                    children={"Aller sur Manzowa"} 
-                                    style={s.button} 
-                                />
-                            </View>
+        <SafeAreaView style={AppStyle.safeArea} edges={['left', 'right']}>
+            <ImageBackground source={Images.background} style={AppStyle.bg}>
+                <View style={s.container}>
+                    <View style={s.assistance}>
+                        <View style={s.info}>
+                            <IconCustom 
+                                iconName={"AntDesign"} 
+                                source={'customerservice'} 
+                                color={Colors.light} 
+                                size={55}
+                                style={s.icon} 
+                            />
+                            <TextCustom 
+                                children={"Besoin d'aide ? Nous sommes là pour vous aider."}
+                                color={"secondary"}
+                                type={"caption"}
+                            />
+                        </View>
+                        <View style={s.faq}>
+                            <TextCustom 
+                                children={"Foire aux questions (FAQ)"}
+                                type={"bodyBold"} 
+                            />
+                            <TextCustom 
+                                children={"Comment contacter le support technique ?"}
+                                color={"secondary"}
+                                type={"caption"}
+                            />
+                            <TextCustom 
+                                children={"Comment modifier les infos de l'école ?"}
+                                color={"secondary"}
+                                type={"caption"}
+                            />
+                            <ButtonLink 
+                                url={"https://manzowa.com/contact"} 
+                                children={"Aller sur Manzowa"} 
+                                style={s.button} 
+                            />
                         </View>
                     </View>
-                </ImageBackground>
-            </SafeAreaView>
-        </SafeAreaProvider>
+                </View>
+            </ImageBackground>
+        </SafeAreaView>
     );
 }
 
@@ -59,9 +57,6 @@ const s = StyleSheet.create({
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-    },
-    area: {
-        flex: 1
     },
     assistance:{
         padding: 10,

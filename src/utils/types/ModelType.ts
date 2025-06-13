@@ -21,6 +21,7 @@ export type SchoolType = {
       mimetype?: string,
       ecoleid?: string|number;
     } | [] | any;
+    [key: string]: any;
 };
 
 export type SchoolDataType = {

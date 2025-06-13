@@ -12,7 +12,8 @@ export {
 
 export { 
     capitalize, isEmpty, formatAdresse,
-    iconSchool, formatDate, getArrayLogo
+    iconSchool, formatDate, getArrayLogo, 
+    generateUniqueString
 } from './util';
 
 export {
