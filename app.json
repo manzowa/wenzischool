@@ -5,7 +5,11 @@
     "description": "Wenzischool affiche écoles de Kinshasa et coordonnées",
     "owner": "manzowa",
     "version": "1.0.0",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "icon": "./assets/images/icon.png",
     "scheme": "wenzischool",
     "splash": {
@@ -13,20 +17,34 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "updates": { "fallbackToCacheTimeout": 0 },
-    "runtimeVersion": { "policy": "sdkVersion" },
-    "assetBundlePatterns": ["**/*"],
-    "android": { "package": "com.manzowa.wenzischool" },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/ab3b39e1-9899-417c-9140-0f0c89b70679"
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.manzowa.wenzischool"
+    },
     "plugins": [
       "expo-build-properties",
       [
         "expo-screen-orientation",
-        { "initialOrientation": "DEFAULT" }
+        {
+          "initialOrientation": "DEFAULT"
+        }
       ]
     ],
     "extra": {
-      "eas": { "projectId": "ab3b39e1-9899-417c-9140-0f0c89b70679" }
+      "eas": {
+        "projectId": "ab3b39e1-9899-417c-9140-0f0c89b70679"
+      }
     },
-    "jsEngine": "hermes"
+    "jsEngine": "hermes",
+    "ios": {}
   }
 }
