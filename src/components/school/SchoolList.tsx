@@ -7,12 +7,14 @@ import { SchoolItem } from "./SchoolItem";
 import { SchoolType } from "@/utils/types";
 
 type SchoolListProp = {
+  data: SchoolType[];
+  navigation?: any;
   text: string;
   setText: Function;
   setClicked: Function;
-  data: Array<SchoolType>;
-  navigation?: any;
+  ListHeaderComponent?: any;
   refreshControl?: React.ReactElement<RefreshControlProps, typeof RefreshControl>;
+  
 };
 
 export const SchoolList = ({
@@ -21,9 +23,10 @@ export const SchoolList = ({
   data,
   navigation,
   refreshControl, // <- réception de la prop
-}: SchoolListProp) => {
+  ListHeaderComponent
+}: SchoolListProp)=> {
   
-  const filteredData = useMemo(() => {
+  const filteredData = useMemo(()=> {
     if (text === "") {
       return data;
     }
@@ -33,10 +36,10 @@ export const SchoolList = ({
   }, [text, data]);
 
   const renderItem = useCallback(
-    ({ item }: { item: SchoolType }) => (
+    ({ item }: { item: SchoolType })=> (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("School", { schoolId: item.id });
+          navigation.navigate("School", { schoolid: item.id });
         }}
       >
         <SchoolItem {...item} />
@@ -50,8 +53,9 @@ export const SchoolList = ({
       <View style={s.content} onStartShouldSetResponder={() => setClicked(false)}>
         <FlatList
           data={filteredData}
-          keyExtractor={(item) => item.id.toString()}  // <- Ici ta clé unique
           renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()} 
+          ListHeaderComponent={ListHeaderComponent}
           refreshControl={refreshControl}
         />
       </View>
@@ -67,6 +71,6 @@ const s = StyleSheet.create({
     marginVertical: 10
   },
   content: {
-    marginLeft: 0,
+    marginLeft: 0
   },
 });

@@ -1,6 +1,4 @@
-export { Styles } from '@/constants/Styles';
-export { Colors } from '@/constants/Colors';
-export { Options } from '@/constants/Options';
-export { Fonts } from '@/constants/Fonts';
-export { Images} from '@/constants/Images';
-export { AppStyle } from '@/constants/AppStyle';
+export { Colors } from "@/constants/Colors";
+export { Options } from "@/constants/Options";
+export { AppImages } from "@/constants/AppImages";
+export { AppStyle } from "@/constants/AppStyle";

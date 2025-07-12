@@ -4,7 +4,7 @@ import {
     View, Keyboard 
 } from "react-native";
 import { Colors } from '@/constants';
-import { IconCustom } from '@/utils';
+import { IconCustom } from '@/utils/custom';
 
 type searchProps = TextInputProps &  {
     clicked: boolean,

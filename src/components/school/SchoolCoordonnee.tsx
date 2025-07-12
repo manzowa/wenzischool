@@ -1,13 +1,10 @@
-import { StyleSheet } from "react-native";
-import {
-    Card, CardHeader, CardTitle,
-    CardRow, CardBody
-} from "@/utils/card";
-import { IconCustom, TextCustom } from "@/utils/custom";
+import { StyleSheet, Text } from "react-native";
+import { Card } from "@/utils/card";
+import { IconCustom } from "@/utils/custom";
 import { SchoolType } from "@/utils/types";
 import { ButtonLink } from "@/utils/button";
-import { formatAdresse } from "@/utils/util";
-import { Colors } from "@/constants";
+import { formatAdresse } from "@/utils/helpers";
+import { Colors, AppStyle } from "@/constants";
 
 type SchoolCoordonneeType = {
     school?: SchoolType;
@@ -15,13 +12,13 @@ type SchoolCoordonneeType = {
 
 // Fonction générique pour rendre les informations de contact
 const renderContactInfo = (
-    iconName: string,
-    source: string,
+    iconName: any,
+    source: any,
     text: string | React.ReactNode,
     button?: boolean,
     key?: React.Key
 ) => (
-    <CardRow key={key}>
+    <Card.Row key={key}>
         <IconCustom
             iconName={iconName}
             size={24}
@@ -31,27 +28,22 @@ const renderContactInfo = (
         {button ? (
             <ButtonLink
                 url={text as string}
-                children={"Aller sur le site"}
                 style={s.button}
-            />
+            >  Aller sur le site
+            </ButtonLink>
         ) : (
-            <TextCustom
-                children={text}
-                type={"caption"}
-                color={"secondary"}
-                style={s.text}
-            />
+            <Text style={[AppStyle.caption]}>{text}</Text>
         )}
-    </CardRow>
+    </Card.Row>
 );
 
 export const SchoolCoordonnee = ({ school }: SchoolCoordonneeType) => {
     return (
         <Card>
-            <CardHeader>
-                <CardTitle children={"Informations de localisation et de contact"} />
-            </CardHeader>
-            <CardBody>
+            <Card.Header>
+                <Card.Title>Informations de localisation et de contact</Card.Title>
+            </Card.Header>
+            <Card.Body>
                 {school?.adresses?.length > 0 &&
                     school?.adresses.map((adresse: any[], index: number) =>
                         renderContactInfo(
@@ -89,7 +81,7 @@ export const SchoolCoordonnee = ({ school }: SchoolCoordonneeType) => {
                         true,
                         "site"
                     )}
-            </CardBody>
+            </Card.Body>
         </Card>
     );
 };

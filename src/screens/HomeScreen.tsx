@@ -1,50 +1,57 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { SafeAreaView} from "react-native-safe-area-context";
+import React from "react";
 import { 
-  StyleSheet, 
   ScrollView, 
-  StatusBar, 
-  ImageBackground,
-  RefreshControl  
+  ImageBackground, 
+  ActivityIndicator 
 } from "react-native";
-import { useSchools} from "@/hooks";
-import { Colors, Images, AppStyle } from "@/constants";
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+import { useSchools } from "@/hooks";
+import { Colors, AppImages, AppStyle } from "@/constants";
 import { 
-  SchoolItemWidget, LogoHorizontalWidget, WelcomeWidget, 
-  FooterInfoWidget, FooterSupportWidget, GistWidget,
+  LogoHorizontalWidget, 
+  WelcomeWidget, 
+  GistWidget, 
+  SchoolWidget, 
+  InfoWidget, 
+  SupportWidget 
 } from "@/utils/widget";
-import { SchoolType, NavBottomTabListType } from "@/utils/types";
+import { SchoolStackParamList } from "@/utils/types";
 
-type HomeScreenProp = NativeStackScreenProps<NavBottomTabListType, "Home">;
+type HomeScreenProps = NativeStackScreenProps<SchoolStackParamList, "Home">;
 
-export function HomeScreen({ navigation, route }: HomeScreenProp) 
+export function HomeScreen({ navigation }: HomeScreenProps) 
 {
-  const [refreshing, setRefreshing] = useState(false);
-  const [clicked, setClicked] = useState(false);
-  const schools: Array<SchoolType> = useSchools("", 5);
+  const { schools, loading } = useSchools();
+
 
   return (
-    <SafeAreaView style={AppStyle.safeArea} edges={['left', 'right']}>
-      <ImageBackground
-        source={Images.background} resizeMode="cover"
-        style={AppStyle.bg}
-      >
-       <ScrollView contentContainerStyle={AppStyle.scrollContainer}>
-          <StatusBar animated={true} backgroundColor={Colors.primary} />
-          <LogoHorizontalWidget source={Images.logoHorizontal} style={AppStyle.logo} />
-          <WelcomeWidget />
-          <GistWidget navigation={navigation}/>
-          <SchoolItemWidget navigation={navigation} data={schools} />
-          <FooterInfoWidget navigation={navigation} />
-          <FooterSupportWidget />
-        </ScrollView>
-      </ImageBackground>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={AppStyle.safeArea} edges={["left", "right"]}>
+        <ImageBackground
+          source={AppImages.background}
+          resizeMode="cover"
+          style={AppStyle.bg}
+        >
+
+          <ScrollView contentContainerStyle={AppStyle.scrollContainer}>
+            <LogoHorizontalWidget 
+              source={AppImages.logoHorizontal} 
+              style={AppStyle.logo} 
+            />
+            <WelcomeWidget />
+            <GistWidget navigation={navigation} />
+            {loading ? (
+              <ActivityIndicator size="large" color={Colors.primary} />
+            ) : (
+              <SchoolWidget data={schools} />
+            )}
+            <InfoWidget navigation={navigation} />
+            <SupportWidget />
+          </ScrollView>
+        </ImageBackground>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
-const s = StyleSheet.create({
-  searchRecent: {
-    padding: 4,
-  }
-});

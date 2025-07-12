@@ -1,80 +1,86 @@
+import React from 'react';
+import { StyleProp, ViewStyle, TextStyle, ImageStyle, TouchableOpacity } from 'react-native';
+import { Image } from 'expo-image';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Image } from 'expo-image';
-import { Feather, Entypo } from "@expo/vector-icons";
+import { Feather, Entypo } from '@expo/vector-icons';
+
+type IconName =
+  | 'AntDesign'
+  | 'MaterialCommunityIcons'
+  | 'MaterialIcons'
+  | 'Ionicons'
+  | 'FontAwesome6'
+  | 'Feather'
+  | 'Entypo'
+  | 'Logo';
 
 type IconType = {
-    iconName?: string;
-    source?: any;
-    color?: string;
-    size?: number;
-    style?: object
-    onPress?: () => void;
+  iconName?: IconName;
+  source?: string | number; // string (icon name or URL), number (require)
+  color?: string;
+  size?: number;
+  style?: StyleProp<ViewStyle | TextStyle | ImageStyle>;
+  onPress?: () => void;
 };
+
+const iconMap = {
+  AntDesign,
+  MaterialCommunityIcons,
+  MaterialIcons,
+  Ionicons,
+  FontAwesome6,
+  Feather,
+  Entypo,
+} as const;
+
 export const IconCustom = (props: IconType) => {
-    const {iconName, source, color, size, style, onPress} = props;
-    switch (iconName) {
-        case 'AntDesign':
-            return (
-                <AntDesign 
-                    name={source} size={size} 
-                    color={color} style={style} onPress={onPress} 
-                />
-            );
-        case 'MaterialCommunityIcons':
-            return (
-                <MaterialCommunityIcons
-                    name={source} size={size} color={color} 
-                    style={style} onPress={onPress} 
-                />
-            );
-        case 'MaterialIcons':
-            return (
-                <MaterialIcons 
-                    name={source} size={size} color={color} 
-                    style={style} onPress={onPress}
-                />
-            );
-        case 'Ionicons':
-            return (
-                <Ionicons 
-                    name={source} size={size} color={color} 
-                    style={style} onPress={onPress}
-                />
-            );
-        case 'Logo':
-            return <Image source={source} style={style} contentFit="cover"/>;
-        case 'FontAwesome6':
-            return (
-                <FontAwesome6 
-                    name={source} size={size} color={color} 
-                    style={style} onPress={onPress}
-                />
-            );
-        case 'Feather':
-            return (
-                <Feather 
-                    name={source} size={size} color={color} 
-                    style={style} onPress={onPress}
-                />
-            );
-        case 'Entypo':
-            return (
-                <Entypo 
-                    name={source} size={size} color={color} 
-                    style={style} onPress={onPress}
-                />
-            );
-        // Add more icons as needed
-        default:
-            return (
-                <Ionicons 
-                    name={source} size={size} color={color} 
-                    style={style} onPress={onPress}
-                />
-            );
-    }
+  const {
+    iconName = 'Ionicons',
+    source,
+    color = 'black',
+    size = 24,
+    style,
+    onPress,
+  } = props;
+
+  if (iconName === 'Logo') {
+    if (!source) return null;
+
+    const imageSource = typeof source === 'string' ? { uri: source } : source;
+
+    const image = (
+      <Image
+        source={imageSource}
+        style={style as StyleProp<ImageStyle>}
+        contentFit="cover"
+      />
+    );
+
+    return onPress ? (
+      <TouchableOpacity onPress={onPress}>{image}</TouchableOpacity>
+    ) : (
+      image
+    );
+  }
+
+  const IconComponent = iconMap[iconName] || Ionicons;
+
+  const icon = (
+    <IconComponent
+      name={source as string}
+      size={size}
+      color={color}
+      style={style as StyleProp<ViewStyle | TextStyle>}
+    />
+  );
+
+  return onPress ? (
+    <TouchableOpacity onPress={onPress}>{icon}</TouchableOpacity>
+  ) : (
+    icon
+  );
 };

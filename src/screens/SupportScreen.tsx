@@ -1,13 +1,13 @@
 import {StyleSheet, View, ImageBackground } from "react-native";
-import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
-import { Colors, Images, AppStyle } from "@/constants";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Colors, AppStyle, AppImages } from "@/constants";
 import { IconCustom, TextCustom } from "@/utils/custom";
 import { ButtonLink } from "@/utils/button";
 
 export function  SupportScreen() {
     return(
         <SafeAreaView style={AppStyle.safeArea} edges={['left', 'right']}>
-            <ImageBackground source={Images.background} style={AppStyle.bg}>
+            <ImageBackground source={AppImages.background} style={AppStyle.bg}>
                 <View style={s.container}>
                     <View style={s.assistance}>
                         <View style={s.info}>
@@ -15,35 +15,27 @@ export function  SupportScreen() {
                                 iconName={"AntDesign"} 
                                 source={'customerservice'} 
                                 color={Colors.light} 
-                                size={55}
-                                style={s.icon} 
+                                size={24}
+                                style={[AppStyle.icon, AppStyle.darkTheme]} 
                             />
-                            <TextCustom 
-                                children={"Besoin d'aide ? Nous sommes là pour vous aider."}
-                                color={"secondary"}
-                                type={"caption"}
-                            />
+                            <TextCustom color={"secondary"} type={"caption"}>
+                                Besoin d'aide ? Nous sommes là pour vous aider.
+                            </TextCustom>
                         </View>
                         <View style={s.faq}>
-                            <TextCustom 
-                                children={"Foire aux questions (FAQ)"}
-                                type={"bodyBold"} 
-                            />
-                            <TextCustom 
-                                children={"Comment contacter le support technique ?"}
-                                color={"secondary"}
-                                type={"caption"}
-                            />
-                            <TextCustom 
-                                children={"Comment modifier les infos de l'école ?"}
-                                color={"secondary"}
-                                type={"caption"}
-                            />
+                            <TextCustom type={"bodyBold"} >
+                                Foire aux questions (FAQ)
+                            </TextCustom>
+                            <TextCustom color={"secondary"} type={"caption"}>
+                                Comment contacter le support technique ?
+                            </TextCustom>
+                            <TextCustom color={"secondary"} type={"caption"}>
+                                Comment modifier les infos de l'école ?
+                            </TextCustom>
                             <ButtonLink 
                                 url={"https://manzowa.com/contact"} 
-                                children={"Aller sur Manzowa"} 
                                 style={s.button} 
-                            />
+                            >Aller sur Manzowa</ButtonLink>
                         </View>
                     </View>
                 </View>
@@ -100,5 +92,5 @@ const s = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-    },
+    }
 });

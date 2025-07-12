@@ -3,7 +3,7 @@ import React, {
   useRef,
   useState,
   useCallback,
-  memo,
+  memo
 } from 'react';
 import {
   View,
@@ -17,19 +17,38 @@ import {
   Text,
 } from 'react-native';
 
+import { ucfirst } from "@/utils/helpers";
+import { SchoolType } from '@/utils/types';
+
+type SchoolImage = SchoolType['images'][number];
 interface ImageSliderProps {
-  images: string[];
-  autoSlideInterval?: number; // ms
+  images: SchoolImage[];
+  autoSlideInterval?: number;
 }
 
 interface ItemProps {
-  item: string;
+  item: SchoolImage;
   width: number;
 }
 
-const ImageItem = memo(({ item, width }: ItemProps) => (
-  <Image source={{ uri: item }} style={[styles.image, { width }]} resizeMode="cover" />
-));
+const ImageItem = memo(({ item, width }: ItemProps) => {
+  return (
+    <View style={[s.imageContainer, { width }]}>
+      <Image
+        source={{ uri: item.url }}
+        style={[s.image, { width }]}
+        resizeMode="cover"
+        accessibilityLabel={item.title}
+      />
+      <View style={s.captionContainer}>
+        <Text style={s.captionText}>{ucfirst(item.title)}</Text>
+        <Text style={s.captionSubText}></Text>
+        <Text style={s.captionSubText}></Text>
+      </View>
+    </View>
+  );
+}, (prev, next) => prev.item.id === next.item.id && prev.width === next.width);
+ImageItem.displayName = 'ImageItem';
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ images, autoSlideInterval = 3000 }) => {
   const { width, height } = useWindowDimensions();
@@ -38,13 +57,20 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, autoSlideInterval = 3
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const flatListRef = useRef<FlatList<string>>(null);
-  const intervalRef = useRef<NodeJS.Timer | null>(null);
+  const [layoutReady, setLayoutReady] = useState(false);
+  const isFirstRender = useRef(true);
+
+  const flatListRef = useRef<FlatList<SchoolImage>>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (width > 0) setLayoutReady(true);
+  }, [width]);
 
   const startAutoSlide = useCallback(() => {
     if (intervalRef.current) return;
     intervalRef.current = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
+      setCurrentIndex(prevIndex => {
         const nextIndex = (prevIndex + 1) % images.length;
         flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
         return nextIndex;
@@ -65,34 +91,40 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, autoSlideInterval = 3
     return stopAutoSlide;
   }, [isPlaying, startAutoSlide, stopAutoSlide]);
 
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
+
   const onScrollEnd = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetX = event.nativeEvent.contentOffset.x;
     const newIndex = Math.round(offsetX / width);
-    setCurrentIndex((prevIndex) => (prevIndex !== newIndex ? newIndex : prevIndex));
+    setCurrentIndex(prevIndex => (prevIndex !== newIndex ? newIndex : prevIndex));
   }, [width]);
 
-  const renderItem = useCallback(({ item }: { item: string }) => (
+  const renderItem = useCallback(({ item }: { item: SchoolImage }) => (
     <ImageItem item={item} width={width} />
   ), [width]);
 
-  const keyExtractor = useCallback((item: string) => item, []);
+  const keyExtractor = useCallback((item: SchoolImage) => item.id.toString(), []);
 
-  const togglePlayPause = () => setIsPlaying((prev) => !prev);
+  const togglePlayPause = () => setIsPlaying(prev => !prev);
 
-  // Gestion de l'échec du scroll vers index (pour éviter crash)
   const onScrollToIndexFailed = useCallback(({ index }: { index: number }) => {
     setTimeout(() => {
       flatListRef.current?.scrollToIndex({ index, animated: true });
     }, 100);
   }, []);
 
+  if (!layoutReady) return null;
+
   return (
-    <View style={[styles.container, { height: sliderHeight }]}>
+    <View style={[s.container, { height: sliderHeight }]}>
       <FlatList
         ref={flatListRef}
         data={images}
         horizontal
         pagingEnabled
+        scrollEnabled={!isPlaying}
         showsHorizontalScrollIndicator={false}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
@@ -102,23 +134,26 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, autoSlideInterval = 3
           offset: width * index,
           index,
         })}
-        initialScrollIndex={currentIndex}
+        initialScrollIndex={isFirstRender.current ? currentIndex : undefined}
         onScrollToIndexFailed={onScrollToIndexFailed}
         initialNumToRender={2}
         maxToRenderPerBatch={5}
         windowSize={5}
-        removeClippedSubviews={true} // supprime les éléments hors écran
+        removeClippedSubviews={true}
+        extraData={[currentIndex, width]}
+        onScrollBeginDrag={stopAutoSlide}
+        onScrollEndDrag={() => isPlaying && startAutoSlide()}
       />
-      <View style={styles.pagination}>
+      <View style={s.pagination}>
         {images.map((_, index) => (
           <View
             key={index.toString()}
-            style={[styles.dot, currentIndex === index ? styles.activeDot : styles.inactiveDot]}
+            style={[s.dot, currentIndex === index ? s.activeDot : s.inactiveDot]}
           />
         ))}
       </View>
-      <TouchableOpacity onPress={togglePlayPause} style={styles.button}>
-        <Text style={styles.buttonText}>
+      <TouchableOpacity onPress={togglePlayPause} style={s.button} activeOpacity={0.8}>
+        <Text style={s.buttonText}>
           {isPlaying ? '⏸ Pause' : '▶️ Play'}
         </Text>
       </TouchableOpacity>
@@ -126,12 +161,19 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, autoSlideInterval = 3
   );
 };
 
-const styles = StyleSheet.create({
+const MemoizedImageSlider = memo(ImageSlider);
+MemoizedImageSlider.displayName = 'ImageSlider';
+export default MemoizedImageSlider;
+
+const s = StyleSheet.create({
   container: {
     width: '100%',
   },
   image: {
     height: '100%',
+  },
+  imageContainer: {
+    position: 'relative',
   },
   pagination: {
     flexDirection: 'row',
@@ -164,6 +206,20 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  captionContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 8,
+  },
+  captionText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  captionSubText: {
+    color: '#ddd',
+    fontSize: 12,
+  },
 });
-
-export default memo(ImageSlider);

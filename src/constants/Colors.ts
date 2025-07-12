@@ -1,6 +1,6 @@
-import { ColorType } from "@/utils/types";
-export const Colors: ColorType = {
+export const Colors = {
     primary : '#6600CC',
+    success: '#4CAF50',
     secondary: '#000066',
     default: '#ecedee',
     light: '#FFFFFF', 

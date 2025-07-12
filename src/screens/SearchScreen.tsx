@@ -1,16 +1,24 @@
 import React, { useState, useEffect, useCallback } from "react";
+import {
+  StyleSheet,
+  ImageBackground,
+  View, Text,
+  RefreshControl,
+  ActivityIndicator
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, ImageBackground, View, RefreshControl } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useSchools } from "@/hooks";
-import { SearchBar, SchoolList } from "@/components";
+import { SearchBar } from "@/components";
 import { BlockWidget } from "@/utils/widget";
-import { SchoolType, RootStackType } from "@/utils/types";
-import { Images, AppStyle } from "@/constants";
+import { SchoolStackParamList } from "@/utils/types";
+import { AppStyle, AppImages } from "@/constants";
+import { useSchoolsBy } from "@/hooks/useSchoolsBy";
+import { SchoolList } from "@/components/school/SchoolList"; 
 
-type SearchScreenProp = NativeStackScreenProps<RootStackType>;
-
-export function SearchScreen({ navigation }: SearchScreenProp) {
+// Type for the SearchScreen props
+type SearchScreenProp = NativeStackScreenProps<SchoolStackParamList, "Search">;
+export function SearchScreen({ navigation }: SearchScreenProp) 
+{
   const [text, setText] = useState("");
   const [debouncedText, setDebouncedText] = useState(text);
   const [clicked, setClicked] = useState(false);
@@ -23,34 +31,21 @@ export function SearchScreen({ navigation }: SearchScreenProp) {
     return () => clearTimeout(handler);
   }, [text]);
 
-  const schools: Array<SchoolType> = useSchools(debouncedText);
+  // API hook
+  const { schools, loading, error } = useSchoolsBy(debouncedText, 8);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    // Simuler un rafraîchissement (exemple)
     setTimeout(() => {
       setRefreshing(false);
-      // Ici tu peux recharger les données si besoin
     }, 1000);
   }, []);
 
   return (
     <SafeAreaView style={AppStyle.safeArea} edges={["left", "right"]}>
-      <ImageBackground source={Images.background} style={AppStyle.bg}>
+      <ImageBackground source={AppImages.background} style={AppStyle.bg}>
         <View style={s.searchContainer}>
-          {!clicked && (
-            <BlockWidget
-              iconName={"Logo"}
-              source={Images.townIcon}
-              text={"Trouver une école à kinshasa "}
-            />
-          )}
-          <SearchBar
-            text={text}
-            setText={setText}
-            clicked={clicked}
-            setClicked={setClicked}
-          />
+          {/* ✅ SchoolList affichée si pas loading ni erreur */}
           <SchoolList
             text={text}
             setText={setText}
@@ -59,6 +54,40 @@ export function SearchScreen({ navigation }: SearchScreenProp) {
             navigation={navigation}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            ListHeaderComponent={
+              <View style={s.searchContainer}>
+                {!clicked && !text && (
+                  <BlockWidget
+                    iconName={"Logo"}
+                    source={AppImages.townIcon}
+                    text={"Trouver une école à Kinshasa"}
+                  />
+                )}
+                <SearchBar
+                  text={text}
+                  setText={setText}
+                  clicked={clicked}
+                  setClicked={setClicked}
+                />
+                {loading && (
+                  <ActivityIndicator
+                    size="large"
+                    color="#007bff"
+                    style={s.indicator}
+                  />
+                )}
+                {error && (
+                  <Text style={s.errorText}>
+                    Une erreur est survenue lors du chargement des écoles.
+                  </Text>
+                )}
+                {!loading && schools?.length === 0 && debouncedText !== "" && (
+                  <Text style={s.noResult}>
+                    Aucune école trouvée pour « {debouncedText} »
+                  </Text>
+                )}
+              </View>
             }
           />
         </View>
@@ -69,6 +98,20 @@ export function SearchScreen({ navigation }: SearchScreenProp) {
 
 const s = StyleSheet.create({
   searchContainer: {
-    margin: 20,
+    margin: 8,
+  },
+  indicator: {
+    marginVertical: 10,
+  },
+  errorText: {
+    color: "red",
+    textAlign: "center",
+    marginVertical: 10,
+  },
+  noResult: {
+    textAlign: "center",
+    marginVertical: 10,
+    fontStyle: "italic",
+    color: "#666",
   },
 });

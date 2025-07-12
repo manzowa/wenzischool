@@ -1,24 +1,34 @@
-import { View, StyleSheet } from "react-native";
-import { Colors, Images } from '@/constants';
-import { TextCustom, IconCustom } from "@/utils/custom";
+import { View, Text, StyleSheet } from "react-native";
+import { Colors, AppStyle } from '@/constants';
+import { IconCustom} from "@/utils/custom";
 
 type BlockWidgetProp = {
     text?: string
-    iconName?: string,
-    source?: string,
+    iconName?: any,
+    source?: any,
     size?: number,
     color?: string
 };
 
-export const BlockWidget = ({text, iconName, source, size= 30, color=""}:BlockWidgetProp) => {
+export const BlockWidget = ({text, iconName, source, size= 25, color=""}:BlockWidgetProp) => {
+    
     return(
-        <View style={[s.headerContainer, s.shadowProps]}>
+        <View style={[s.headerContainer]}>
             <IconCustom 
-                iconName={iconName} source={source} 
-                style={s.logo} size={size} color={color}
+                iconName={iconName} 
+                source={source} 
+                style={[AppStyle.icon, AppStyle.defaultTheme]} 
+                size={size} 
+                color={color}
             />
-            <TextCustom children={text} type={"caption"} color={"light"} style={s.middle} />
-            <IconCustom iconName={"Logo"} source={Images.logo} style={s.logo} size={size} />
+            <Text style={[AppStyle.caption, {color: Colors.light, flex: 2}]}>{text}</Text>
+            <IconCustom 
+                iconName={"Logo"} 
+                source={require('../../../assets/images/logo-sign.webp')} 
+                style={[AppStyle.icon, AppStyle.darkTheme]} 
+                size={size} 
+                color={color}
+            />
         </View>
     )
 };
@@ -38,21 +48,6 @@ const s = StyleSheet.create({
         shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.2,
         shadowRadius: 2,
-    },
-    logo: {
-        width: 40,
-        height: 40,
-        backgroundColor: Colors.light,
-        borderRadius: 50,
-        padding: 5
-    },
-    shadowProps: {
-        shadowOffset: {width: -2, height: 4},
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
         elevation: 5
-    },
-    middle: {
-        flex: 2,
     }
 });

@@ -1,49 +1,32 @@
 {
-  "name": "Wenzischool App",
-  "slug": "wenzischool",
-  "description": "Wenzischool affiche écoles de Kinshasa et coordonnées",
-  "owner": "manzowa",
-  "version": "1.0.0",
-  "sdkVersion": "53.0.0",
-  "platforms": [
-    "ios",
-    "android",
-    "web"
-  ],
-  "icon": "./assets/images/icon.png",
-  "scheme": "wenzischool",
-  "splash": {
-    "image": "./assets/images/splash-icon.png",
-    "resizeMode": "contain",
-    "backgroundColor": "#ffffff"
-  },
-  "updates": {
-    "fallbackToCacheTimeout": 0
-  },
-  "runtimeVersion": "53.0.0",
-  "assetBundlePatterns": [
-    "**/*"
-  ],
-  "android": {
-    "package": "com.manzowa.wenzischool",
-    "edgeToEdgeEnabled": true
-  },
-  "plugins": [
-    "expo-font",
-    "expo-web-browser",
-    "expo-router",
-    "expo-build-properties",
-    [
-      "expo-screen-orientation",
-      {
-        "initialOrientation": "DEFAULT"
-      }
-    ]
-  ],
-  "extra": {
-    "eas": {
-      "projectId": "ab3b39e1-9899-417c-9140-0f0c89b70679"
-    }
-  },
-  "jsEngine":"hermes"
+  "expo": {
+    "name": "Wenzischool App",
+    "slug": "wenzischool",
+    "description": "Wenzischool affiche écoles de Kinshasa et coordonnées",
+    "owner": "manzowa",
+    "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "icon": "./assets/images/icon.png",
+    "scheme": "wenzischool",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": { "fallbackToCacheTimeout": 0 },
+    "runtimeVersion": { "policy": "sdkVersion" },
+    "assetBundlePatterns": ["**/*"],
+    "android": { "package": "com.manzowa.wenzischool" },
+    "plugins": [
+      "expo-build-properties",
+      [
+        "expo-screen-orientation",
+        { "initialOrientation": "DEFAULT" }
+      ]
+    ],
+    "extra": {
+      "eas": { "projectId": "ab3b39e1-9899-417c-9140-0f0c89b70679" }
+    },
+    "jsEngine": "hermes"
+  }
 }

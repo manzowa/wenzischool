@@ -1,2 +1,2 @@
-export { AppStack } from './AppStack';
-export { SchoolNavStacK } from './SchoolNavStacK';
+export { AppNavigation } from './AppNavigation';
+export { SchoolNavigation } from './SchoolNavigation';

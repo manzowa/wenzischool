@@ -1,86 +1,77 @@
-import { Text, TextProps, StyleSheet } from 'react-native';
-import { Colors } from "@/constants";
-import { StyleType} from '@/utils/types';
+import React from 'react';
+import { 
+  Text, TextProps, 
+  StyleSheet, TextStyle 
+} from 'react-native';
+import { Colors, AppStyle } from "@/constants";
 
-// You can add more text types if needed
-type textType = "title"|"subtitle"|"body"|"caption"|"titleBold"|"subtitleBold"|"bodyBold"|"captionBold"|"small"|"smallBold"|"medium"|"mediumBold";
-type textColor= "primary"|"secondary"|"light"|"error"|"warning";
+type TextVariant =
+  | "title" | "titleBold"
+  | "subtitle" | "subtitleBold"
+  | "body" | "bodyBold"
+  | "caption" | "captionBold"
+  | "small" | "smallBold"
+  | "medium" | "mediumBold";
+
+type TextColor = 
+  "primary" | "secondary" | "light" 
+  | "dark" | "error" | "warning";
 
 type TextCustomProps = TextProps & {
-    type?: textType;
-    color?: textColor;
-}
+  children: React.ReactNode;
+  type?: TextVariant;
+  color?: TextColor;
+};
 
-export const TextCustom = (({children, type="body", color="primary", style, ...props}: TextCustomProps) => {
-    const textStyles: StyleType = {
-        title: s.title,
-        titleBold: {...s.title, fontWeight: "900"},
-        subtitle: s.subtitle,
-        subtitleBold: {...s.subtitle, fontWeight: "700"},
-        body: s.body,
-        bodyBold: {...s.body, fontWeight: "bold"},
-        caption: s.caption,
-        captionBold: {...s.caption, fontWeight: "bold"},
-        small: s.small,
-        smallBold: {...s.small, fontWeight: "bold"},
-        medium: s.medium,
-        mediumBold: {...s.medium, fontWeight: "bold"},
-    };
-    const textColors = {
-        primary: {color: Colors.primary}, 
-        secondary: {color: Colors.secondary},
-        light: {color: Colors.light},
-        error: {color: Colors.error},
-        warning: {color: Colors.warning},
-        dark: {color: Colors.dark},
-    }
-    return (
-        <Text 
-            style={[textColors[color], textStyles[type], style]} 
-            {...props}
-        >
-          {children}
-        </Text>
-    )
-});
-const s = StyleSheet.create({
-    title:{
-        fontFamily: 'Comfortaa-Bold',
-        fontSize: 22,
-        lineHeight: 34,
-        letterSpacing: 0.1,
-        marginHorizontal: 5
-    },
-    subtitle:{
-        fontFamily: 'Comfortaa-SemiBold',
-        fontSize: 20,
-        lineHeight: 30,
-        letterSpacing: 0.1,
-    },
-    body:{
-        fontFamily: 'Comfortaa-Regular',
-        fontSize: 16,
-        lineHeight: 22,
-        letterSpacing: 0.1,
-    },
-    caption: {
-        fontFamily: 'Comfortaa-Regular',
-        fontSize: 12,
-        lineHeight: 20,
-        letterSpacing: 0.1,
-        marginHorizontal: 5
-    },
-    medium: {
-        fontFamily: 'Comfortaa-Regular',
-        fontSize: 10, 
-        lineHeight: 12,
-        letterSpacing: 0.1,
-    },
-    small: {
-        fontFamily: 'Comfortaa-Regular',
-        fontSize: 8, 
-        lineHeight: 10,
-        letterSpacing: 0.1,
-    },
+export const TextCustom = ({
+  children,
+  type = "body",
+  color = "primary",
+  style,
+  ...props
+}: TextCustomProps) => {
 
-});
+  const textVariants: Record<TextVariant, TextStyle> = {
+    title: AppStyle.title,
+    titleBold: { ...AppStyle.title, fontWeight: "900" },
+
+    subtitle: AppStyle.subtitle,
+    subtitleBold: { ...AppStyle.subtitle, fontWeight: "700" },
+
+    body: AppStyle.body,
+    bodyBold: { ...AppStyle.body, fontWeight: "bold" },
+
+    caption: AppStyle.caption,
+    captionBold: { ...AppStyle.caption, fontWeight: "bold" },
+
+    small: AppStyle.small,
+    smallBold: { ...AppStyle.small, fontWeight: "bold" },
+
+    medium: AppStyle.medium,
+    mediumBold: { ...AppStyle.medium, fontWeight: "bold" },
+  };
+
+  const textColors: Record<TextColor, TextStyle> = {
+    primary: { color: Colors.primary },
+    secondary: { color: Colors.secondary },
+    light: { color: Colors.light },
+    dark: { color: Colors.dark },
+    error: { color: Colors.error },
+    warning: { color: Colors.warning },
+  };
+
+  const variantStyle = textVariants[type] || AppStyle.body;
+  const colorStyle = textColors[color] || { color: Colors.primary };
+
+  const combinedStyle = StyleSheet.flatten([
+    variantStyle,
+    colorStyle,
+    style,
+  ]);
+
+  return (
+    <Text style={combinedStyle} {...props}>
+      {children}
+    </Text>
+  );
+};

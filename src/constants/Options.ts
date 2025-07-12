@@ -10,6 +10,5 @@ export const Options = {
     tabBarStyle: {
       backgroundColor: '#ffffff', 
     }
-  },
-  apiUrl: 'https://manzowa.com/api/v1/'
+  }
 }

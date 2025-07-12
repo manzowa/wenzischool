@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { Linking, Alert } from "react-native";
 import { ButtonCustom} from "@/utils/custom";
 import { Colors } from "@/constants";
@@ -19,9 +19,11 @@ export const ButtonLink = ({url, children, style}: ButtonLinkProps) => {
   }, [url]);
   return (
     <ButtonCustom 
-      title={children} onPress={handlePress} 
+      title={children} 
+      onPress={handlePress} 
       colorText={Colors.light}
       style={style}
+      textStyle={{ fontWeight: "bold" }}
     />
   );
 };

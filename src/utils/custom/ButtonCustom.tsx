@@ -1,49 +1,49 @@
-import { 
-    TouchableOpacity, StyleSheet
-} from 'react-native';
-import { Colors } from "@/constants";
-import { TextCustom } from "./TextCustom";
+import React from "react";
+import {
+  TouchableOpacity,
+  Text,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+  GestureResponderEvent,
+} from "react-native";
+import { AppStyle } from "@/constants";
 
-type ButtonCustomProp = {
-    title: string,
-    colorText: any
-    style?: any,
-    onPress?: () => void
+type ButtonCustomProps = {
+  title: string;
+  colorText?: string;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  onPress?: (event: GestureResponderEvent) => void;
+  disabled?: boolean;
+  testID?: string;
 };
 
-export const ButtonCustom = (prop: ButtonCustomProp) => {
-    return (
-        <TouchableOpacity 
-            style={[s.buttonContainer, prop.style]} 
-            onPress={prop.onPress}
-        >
-            <TextCustom 
-               children={prop.title} 
-               style={{color: prop.colorText}} 
-               type={"mediumBold"}
-            />
-        </TouchableOpacity>
-    )
+export const ButtonCustom: React.FC<ButtonCustomProps> = ({
+  title,
+  colorText = "#000",
+  style,
+  textStyle,
+  onPress,
+  disabled = false,
+  testID,
+}) => {
+  return (
+    <TouchableOpacity
+      style={[
+        AppStyle.button,
+        style,
+        disabled && AppStyle.disabled,
+      ]}
+      onPress={onPress}
+      activeOpacity={0.7}
+      disabled={disabled}
+      testID={testID}
+    >
+      <Text style={[AppStyle.medium, { color: colorText }, textStyle]}>
+        {title}
+      </Text>
+    </TouchableOpacity>
+  );
 };
-
-const s = StyleSheet.create({
-    buttonContainer: {
-        borderRadius: 5,
-        elevation: 4,
-        shadowColor: Colors.dark,
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    buttonText: {
-        fontFamily: 'Comfortaa-Regular',
-        fontSize: 12,
-        fontWeight: 'bold',
-        paddingHorizontal: 12,
-    }
-});
+ButtonCustom.displayName = "ButtonCustom";

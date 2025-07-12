@@ -1,37 +1,51 @@
-import React, { useState, useCallback } from "react";
-import { View, Text, StyleSheet} from "react-native";
-import ImageSlider from "@/components/ImageSlider";
+import React, { useMemo } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import ImageSlider from '@/components/ImageSlider'; 
+import { SchoolType } from '@/utils/types';
+import { IconCustom } from '@/utils/custom';
+import { Colors } from "@/constants";
 
-type SchoolSliderType = {
-    images: any[]
+
+type SchoolImage = SchoolType['images'][number];
+interface SchoolSliderProps {
+  images: SchoolImage[];
 }
 
-const ImageEmpty = () => {
-    return (
-        <View style={s.empty}>
-            {/* <Text>Aucune image disponible</Text> */}
+export function SchoolSlider({ images }: SchoolSliderProps) {
+  const imagesAvailable = useMemo(() => !!images?.length, [images]);
+
+  return (
+    <View style={styles.container}>
+      {imagesAvailable ? (
+        <ImageSlider images={images} />
+      ) : (
+        <View style={styles.empty}>
+          <IconCustom
+            iconName="MaterialIcons"
+            source="image-not-supported"
+            size={40}
+            color={Colors.primary}
+          />
+          <Text style={styles.emptyText}>Aucune image disponible</Text>
         </View>
-    )
-};
-
-export function  SchoolSlider ({ images }: SchoolSliderType) {
-    // Vérifie si le tableau d'images est valide et non vide
-    const hasImages = Array.isArray(images) && images.length > 0;
-    
-    return (
-        <View style={s.container}>
-            { hasImages ? (<ImageSlider images={images} />) :   (<ImageEmpty />) }
-        </View> 
-    );
+      )}
+    </View>
+  );
 }
 
-const s = StyleSheet.create({
-    container:  {
-        marginTop: 10
-    },
-    empty: {
-        height: 200,
-        justifyContent: "center",
-        alignItems: "center"
-    }
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 10,
+  },
+  empty: {
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0'
+  },
+  emptyText: {
+    color: '#888',
+    fontSize: 14,
+    fontStyle: 'italic',
+  },
 });

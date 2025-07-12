@@ -1,6 +1,5 @@
 import { SchoolType } from "./types";
-import { Options } from "@/constants";
-import * as CryptoJS from 'crypto-js';
+// import * as CryptoJS from 'crypto-js';
 /**
  * @function capitalize
  * @author Christian Shungu <christianshungu@google.com>
@@ -22,7 +21,7 @@ export function capitalize(strValue: string) {
  */
 export function isEmpty(strValue: string) {
     let o = new String(strValue);
-    let res: boolean = o?.toString() === "null" || o.toString() == "" ? true : false;
+    let res: boolean = o?.toString() === "null" || o.toString() === "" ? true : false;
     return res;
 };
 /**
@@ -85,7 +84,8 @@ export function getArrayLogo(data: any[]) {
     }
     return [];
 }
-export function generateUniqueString(key: string) {
-  const hash = CryptoJS.SHA256(key);
-  return hash.toString(CryptoJS.enc.Hex);
+
+export function ucfirst(str: string) {
+  if (!str) return str; // handle empty strings
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
