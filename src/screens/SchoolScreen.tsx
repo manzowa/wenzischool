@@ -13,7 +13,7 @@ import {
 import { Colors, AppImages, AppStyle } from "@/constants";
 import { useSchool } from "@/hooks";
 import { capitalize } from "@/utils/helpers";
-import { BlockWidget } from "@/utils/widget";
+import { BlockWidget, Widget } from "@/utils/widget";
 import { 
   SchoolType, 
   SchoolScreenProp
@@ -55,15 +55,17 @@ export function SchoolScreen({ route }: SchoolScreenProp) {
               }
             ]}
           >
-            {loading ? (
-              <ActivityIndicator
-                size="large"
-                color={Colors.primary}
-                style={{ marginTop: 50 }}
-              />
-            ) : (
-              school && <SchoolContent school={school} images={images} logo={logo} />
-            )}
+            <Widget style={AppStyle.widgetContainer}>
+              {loading ? (
+                <ActivityIndicator
+                  size="large"
+                  color={Colors.primary}
+                  style={{ marginTop: 50 }}
+                />
+              ) : (
+                school && <SchoolContent school={school} images={images} logo={logo} />
+              )}
+            </Widget>
           </ScrollView>
         </ImageBackground>
       </SafeAreaView>
@@ -89,8 +91,8 @@ const SchoolContent = ({ school, images, logo }: SchoolContentProps) => (
 );
 const s = StyleSheet.create({
   containerSchool: {
-    paddingHorizontal: 20,
     marginBottom: 20,
+    marginTop: 10
   },
   loadingIndicator: {
     marginTop: 50,

@@ -63,10 +63,6 @@ export const SchoolList = ({
 
 const s = StyleSheet.create({
   container: {
-    // padding: 5,
-    // marginLeft: 0,
-    // marginRight: 10,
-    // marginVertical: 10
     padding: 0
   },
   content: {

@@ -57,7 +57,7 @@ export function SearchScreen({ navigation }: SearchScreenProp)
                 paddingRight: insets.right,
               }
           ]}>
-            <Widget style={s.widgetContainer}>
+            <Widget style={AppStyle.widgetContainer}>
               {!clicked && !text && (
                 <BlockWidget
                   iconName={"Logo"}
