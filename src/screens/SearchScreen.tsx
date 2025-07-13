@@ -3,13 +3,9 @@ import {
   StyleSheet,
   ImageBackground,
   ScrollView, 
-  View, Text,
+  Text,
   RefreshControl,
-  ActivityIndicator,
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity
+  ActivityIndicator
 } from "react-native";
 import { 
   SafeAreaView, SafeAreaProvider, 
@@ -22,7 +18,6 @@ import { SchoolStackParamList } from "@/utils/types";
 import { AppStyle, AppImages, Colors } from "@/constants";
 import { useSchoolsBy } from "@/hooks/useSchoolsBy";
 import { SchoolList } from "@/components/school/SchoolList"; 
-import { SchoolItem } from "@/components/school";
 
 // Type for the SearchScreen props
 type SearchScreenProp = NativeStackScreenProps<SchoolStackParamList, "Search">;

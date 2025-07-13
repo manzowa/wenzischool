@@ -1,5 +1,4 @@
 import { StyleSheet, Platform } from "react-native";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from "./Colors";
 
 // Police de base selon la plateforme
