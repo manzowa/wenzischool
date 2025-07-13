@@ -18,6 +18,7 @@ export const SearchBar = (props : searchProps) => {
     const handleChangeText = (text: any) => setText(text);
     const handleEndEditing = () => Keyboard.dismiss();
     const handleFocus = () => setClicked(true);
+
     const handlePress = () => {
         setClicked(false);
         setText("");

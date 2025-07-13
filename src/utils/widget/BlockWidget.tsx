@@ -35,7 +35,6 @@ export const BlockWidget = ({text, iconName, source, size= 25, color=""}:BlockWi
 
 const s = StyleSheet.create({
     headerContainer: {
-        marginTop: 20,
         padding: 10,
         flexDirection: "row",
         alignItems: "center",

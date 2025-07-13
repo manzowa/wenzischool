@@ -1,5 +1,8 @@
 import React, { useMemo } from 'react';
-import { SafeAreaView } from "react-native-safe-area-context";
+import { 
+  SafeAreaView, SafeAreaProvider, 
+  useSafeAreaInsets  
+} from "react-native-safe-area-context";
 import {
   StyleSheet,
   View,
@@ -29,6 +32,7 @@ const MemoizedSchoolSlider = React.memo(SchoolSlider);
 export function SchoolScreen({ route }: SchoolScreenProp) {
   const { schoolid } = route.params;
   const { school, loading } = useSchool(parseInt(schoolid));
+  const insets = useSafeAreaInsets();
 
   const images: SchoolImage[] = useMemo(() => school?.images ?? [], [school?.images]);
   const logo: SchoolImage | undefined = useMemo(() => {
@@ -38,21 +42,32 @@ export function SchoolScreen({ route }: SchoolScreenProp) {
   }, [images]);
 
   return (
-    <SafeAreaView style={AppStyle.safeArea} edges={['left', 'right']}>
-      <ImageBackground source={AppImages.background} style={AppStyle.bg}>
-        <ScrollView>
-          {loading ? (
-            <ActivityIndicator
-              size="large"
-              color={Colors.primary}
-              style={{ marginTop: 50 }}
-            />
-          ) : (
-            school && <SchoolContent school={school} images={images} logo={logo} />
-          )}
-        </ScrollView>
-      </ImageBackground>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={AppStyle.safeArea} >
+        <ImageBackground source={AppImages.background} style={AppStyle.bg}>
+          <ScrollView 
+            contentContainerStyle={[
+              { 
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+              }
+            ]}
+          >
+            {loading ? (
+              <ActivityIndicator
+                size="large"
+                color={Colors.primary}
+                style={{ marginTop: 50 }}
+              />
+            ) : (
+              school && <SchoolContent school={school} images={images} logo={logo} />
+            )}
+          </ScrollView>
+        </ImageBackground>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 interface SchoolContentProps {

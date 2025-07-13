@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  StyleSheet,
   TouchableOpacity,
   FlatList,
   ListRenderItem,
@@ -12,6 +11,7 @@ import { SchoolType, AppStackParamList } from "@/utils/types";
 import { Widget } from "./Widget";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppStyle } from "@/constants";
 
 type SchoolItemProp = {
   data: SchoolType[];
@@ -31,7 +31,7 @@ export function SchoolWidget({ data }: SchoolItemProp) {
     </TouchableOpacity>
   );
   return (
-    <Widget style={s.schoolWidgetContainer}>
+    <Widget style={AppStyle.widgetContainer}>
       <TextCustom color="secondary">Récemment ajouté</TextCustom>
       {data && data.length > 0 ? (
         <FlatList
@@ -41,21 +41,10 @@ export function SchoolWidget({ data }: SchoolItemProp) {
           scrollEnabled={false} // car probablement dans un ScrollView parent
         />
       ) : (
-        <View style={s.schoolWidgetEmptyContainer}>
+        <View style={AppStyle.widgetEmptyContainer}>
           <TextCustom color="secondary">Aucune école disponible</TextCustom>
         </View>
       )}
     </Widget>
   );
 }
-const s = StyleSheet.create({
-  schoolWidgetContainer: {
-    padding: 4,
-    marginVertical: 10,
-    marginHorizontal: 20,
-  },
-  schoolWidgetEmptyContainer: {
-    marginTop: 10,
-    alignItems: "center",
-  },
-});

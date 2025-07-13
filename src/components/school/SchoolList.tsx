@@ -12,7 +12,6 @@ type SchoolListProp = {
   text: string;
   setText: Function;
   setClicked: Function;
-  ListHeaderComponent?: any;
   refreshControl?: React.ReactElement<RefreshControlProps, typeof RefreshControl>;
   
 };
@@ -22,8 +21,7 @@ export const SchoolList = ({
   setClicked,
   data,
   navigation,
-  refreshControl, // <- réception de la prop
-  ListHeaderComponent
+  refreshControl
 }: SchoolListProp)=> {
   
   const filteredData = useMemo(()=> {
@@ -55,8 +53,8 @@ export const SchoolList = ({
           data={filteredData}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()} 
-          ListHeaderComponent={ListHeaderComponent}
           refreshControl={refreshControl}
+          scrollEnabled={false}
         />
       </View>
     </View>
@@ -65,10 +63,11 @@ export const SchoolList = ({
 
 const s = StyleSheet.create({
   container: {
-    padding: 5,
-    marginLeft: 0,
-    marginRight: 10,
-    marginVertical: 10
+    // padding: 5,
+    // marginLeft: 0,
+    // marginRight: 10,
+    // marginVertical: 10
+    padding: 0
   },
   content: {
     marginLeft: 0

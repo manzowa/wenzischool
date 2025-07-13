@@ -1,46 +1,64 @@
-import {StyleSheet, View, ImageBackground } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+    StyleSheet, View, ImageBackground, 
+    ScrollView
+} from "react-native";
+import { 
+    SafeAreaView, SafeAreaProvider, 
+    useSafeAreaInsets
+} from "react-native-safe-area-context";
 import { Colors, AppStyle, AppImages } from "@/constants";
 import { IconCustom, TextCustom } from "@/utils/custom";
 import { ButtonLink } from "@/utils/button";
 
 export function  SupportScreen() {
+    const insets = useSafeAreaInsets();
     return(
-        <SafeAreaView style={AppStyle.safeArea} edges={['left', 'right']}>
-            <ImageBackground source={AppImages.background} style={AppStyle.bg}>
-                <View style={s.container}>
-                    <View style={s.assistance}>
-                        <View style={s.info}>
-                            <IconCustom 
-                                iconName={"AntDesign"} 
-                                source={'customerservice'} 
-                                color={Colors.light} 
-                                size={24}
-                                style={[AppStyle.icon, AppStyle.darkTheme]} 
-                            />
-                            <TextCustom color={"secondary"} type={"caption"}>
-                                Besoin d'aide ? Nous sommes là pour vous aider.
-                            </TextCustom>
+        <SafeAreaProvider>
+            <SafeAreaView style={AppStyle.safeArea}>
+                <ImageBackground source={AppImages.background} style={AppStyle.bg}>
+                    <ScrollView  contentContainerStyle={[
+                        AppStyle.scrollContainer, 
+                        { 
+                            paddingTop: insets.top, 
+                            paddingBottom: insets.bottom,
+                            paddingLeft: insets.left,
+                            paddingRight: insets.right
+                        }
+                      ]}
+                    >
+                        <View style={s.assistance}>
+                            <View style={s.info}>
+                                <IconCustom 
+                                    iconName={"AntDesign"} 
+                                    source={'customerservice'} 
+                                    color={Colors.light} 
+                                    size={24}
+                                    style={[AppStyle.icon, AppStyle.darkTheme]} 
+                                />
+                                <TextCustom color={"secondary"} type={"caption"}>
+                                    Besoin d'aide ? Nous sommes là pour vous aider.
+                                </TextCustom>
+                            </View>
+                            <View style={s.faq}>
+                                <TextCustom type={"bodyBold"} >
+                                    Foire aux questions (FAQ)
+                                </TextCustom>
+                                <TextCustom color={"secondary"} type={"caption"}>
+                                    Comment contacter le support technique ?
+                                </TextCustom>
+                                <TextCustom color={"secondary"} type={"caption"}>
+                                    Comment modifier les infos de l'école ?
+                                </TextCustom>
+                                <ButtonLink 
+                                    url={"https://manzowa.com/contact"} 
+                                    style={s.button} 
+                                >Aller sur Manzowa</ButtonLink>
+                            </View>
                         </View>
-                        <View style={s.faq}>
-                            <TextCustom type={"bodyBold"} >
-                                Foire aux questions (FAQ)
-                            </TextCustom>
-                            <TextCustom color={"secondary"} type={"caption"}>
-                                Comment contacter le support technique ?
-                            </TextCustom>
-                            <TextCustom color={"secondary"} type={"caption"}>
-                                Comment modifier les infos de l'école ?
-                            </TextCustom>
-                            <ButtonLink 
-                                url={"https://manzowa.com/contact"} 
-                                style={s.button} 
-                            >Aller sur Manzowa</ButtonLink>
-                        </View>
-                    </View>
-                </View>
-            </ImageBackground>
-        </SafeAreaView>
+                    </ScrollView>
+                </ImageBackground>
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
 

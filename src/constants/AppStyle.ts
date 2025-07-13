@@ -1,4 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from "./Colors";
 
 // Police de base selon la plateforme
@@ -7,6 +8,7 @@ const baseFontFamily = Platform.select({
   android: "sans-serif",
   default: "System",
 });
+
 
 export const AppStyle = StyleSheet.create({
   // Background image
@@ -22,7 +24,7 @@ export const AppStyle = StyleSheet.create({
 
   bg: { flex: 1 },
 
-  safeArea: { flex: 1 },
+  safeArea: { flex: 1, backgroundColor: Colors.light },
 
   logo: {
     width: 220,
@@ -311,5 +313,14 @@ export const AppStyle = StyleSheet.create({
   },
   disabled: {
     opacity: 0.5,
+  },
+  widgetContainer: {
+    padding: 4,
+    marginVertical: 10,
+    marginHorizontal: 20,
+  },
+  widgetEmptyContainer: {
+    marginTop: 10,
+    alignItems: "center",
   },
 });

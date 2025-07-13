@@ -4,7 +4,10 @@ import {
   ImageBackground, 
   ActivityIndicator 
 } from "react-native";
-import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
+import { 
+  SafeAreaView, SafeAreaProvider, 
+  useSafeAreaInsets 
+} from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { useSchools } from "@/hooks";
@@ -24,18 +27,27 @@ type HomeScreenProps = NativeStackScreenProps<SchoolStackParamList, "Home">;
 export function HomeScreen({ navigation }: HomeScreenProps) 
 {
   const { schools, loading } = useSchools();
-
+  const insets = useSafeAreaInsets();
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={AppStyle.safeArea} edges={["left", "right"]}>
+      <SafeAreaView style={AppStyle.safeArea}>
         <ImageBackground
           source={AppImages.background}
           resizeMode="cover"
           style={AppStyle.bg}
         >
-
-          <ScrollView contentContainerStyle={AppStyle.scrollContainer}>
+          <ScrollView 
+            contentContainerStyle={[
+              AppStyle.scrollContainer,
+              { 
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+              }
+            ]}
+          >
             <LogoHorizontalWidget 
               source={AppImages.logoHorizontal} 
               style={AppStyle.logo} 
