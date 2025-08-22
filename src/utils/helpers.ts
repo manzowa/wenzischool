@@ -86,6 +86,20 @@ export function getArrayLogo(data: any[]) {
 }
 
 export function ucfirst(str: string) {
-  if (!str) return str; // handle empty strings
-  return str.charAt(0).toUpperCase() + str.slice(1);
+   if (typeof str !== "string" || !str) {
+    return "";
+  }
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+export async function isLinkActive(url: string) {
+  try {
+    const response = await fetch(url, { method: "HEAD", mode: "no-cors" });
+    if (!response.ok) {
+      return false;
+    }
+    return true;
+  } catch (_) {
+    return false;
+  }
+};

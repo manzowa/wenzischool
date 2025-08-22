@@ -129,6 +129,9 @@ export const AppStyle = StyleSheet.create({
     borderRadius: 4,
     marginBottom: 5,
   },
+  cardBody: {
+    paddingHorizontal: 4,
+  },
 
   cardRow: {
     flexDirection: "row",

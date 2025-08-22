@@ -5,6 +5,7 @@ import { SchoolType } from "@/utils/types";
 import { ButtonLink } from "@/utils/button";
 import { formatAdresse } from "@/utils/helpers";
 import { Colors, AppStyle } from "@/constants";
+import { useLinkActive } from "@/hooks";
 
 type SchoolCoordonneeType = {
     school?: SchoolType;
@@ -38,10 +39,11 @@ const renderContactInfo = (
 );
 
 export const SchoolCoordonnee = ({ school }: SchoolCoordonneeType) => {
+    const isActive = useLinkActive(school?.site ?? "");
     return (
         <Card>
             <Card.Header>
-                <Card.Title>Informations de localisation et de contact</Card.Title>
+                <Card.Title>Informations de l'école</Card.Title>
             </Card.Header>
             <Card.Body>
                 {school?.adresses?.length > 0 &&
@@ -73,14 +75,15 @@ export const SchoolCoordonnee = ({ school }: SchoolCoordonneeType) => {
                         "email"
                     )}
 
-                {school?.site &&
+                {isActive &&
                     renderContactInfo(
                         "MaterialCommunityIcons",
                         "web",
-                        school.site,
+                        school?.site,
                         true,
                         "site"
-                    )}
+                    )
+                }
             </Card.Body>
         </Card>
     );
