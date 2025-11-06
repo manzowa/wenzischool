@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleProp, ViewStyle, TextStyle, ImageStyle, TouchableOpacity } from 'react-native';
+import {
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+  ImageStyle,
+  TouchableOpacity,
+} from 'react-native';
 import { Image } from 'expo-image';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -8,25 +14,7 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Feather, Entypo } from '@expo/vector-icons';
 
-type IconName =
-  | 'AntDesign'
-  | 'MaterialCommunityIcons'
-  | 'MaterialIcons'
-  | 'Ionicons'
-  | 'FontAwesome6'
-  | 'Feather'
-  | 'Entypo'
-  | 'Logo';
-
-type IconType = {
-  iconName?: IconName;
-  source?: string | number; // string (icon name or URL), number (require)
-  color?: string;
-  size?: number;
-  style?: StyleProp<ViewStyle | TextStyle | ImageStyle>;
-  onPress?: () => void;
-};
-
+// Map of icon sets
 const iconMap = {
   AntDesign,
   MaterialCommunityIcons,
@@ -37,16 +25,28 @@ const iconMap = {
   Entypo,
 } as const;
 
-export const IconCustom = (props: IconType) => {
-  const {
-    iconName = 'Ionicons',
-    source,
-    color = 'black',
-    size = 24,
-    style,
-    onPress,
-  } = props;
+// Strict union of available icon sets
+type IconName = keyof typeof iconMap | 'Logo';
 
+type IconCustomProps = {
+  iconName?: IconName;
+  source?: string | number; // string: icon name or URL, number: require(...)
+  color?: any;
+  size?: number;
+  style?: StyleProp<ViewStyle | TextStyle | ImageStyle>;
+  onPress?: () => void;
+};
+
+export const IconCustom: React.FC<IconCustomProps> = ({
+  iconName = 'Ionicons',
+  source,
+  color = 'black',
+  size = 24,
+  style,
+  onPress,
+}) => {
+  
+  // Handle Logo (image icon)
   if (iconName === 'Logo') {
     if (!source) return null;
 
@@ -67,6 +67,7 @@ export const IconCustom = (props: IconType) => {
     );
   }
 
+  // Get the appropriate icon set component
   const IconComponent = iconMap[iconName] || Ionicons;
 
   const icon = (

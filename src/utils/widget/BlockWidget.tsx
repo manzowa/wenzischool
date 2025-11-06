@@ -21,7 +21,7 @@ export const BlockWidget = ({text, iconName, source, size= 25, color=""}:BlockWi
                 size={size} 
                 color={color}
             />
-            <Text style={[AppStyle.caption, {color: Colors.light, flex: 2}]}>{text}</Text>
+            <Text style={[AppStyle.caption, s.text]}>{text}</Text>
             <IconCustom 
                 iconName={"Logo"} 
                 source={require('../../../assets/images/logo-sign.webp')} 
@@ -48,5 +48,12 @@ const s = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 2,
         elevation: 5
+    },
+    text: {
+        flex: 2,
+        color: Colors.light,
+        marginHorizontal: 10,
+        fontWeight: "bold"
+
     }
 });

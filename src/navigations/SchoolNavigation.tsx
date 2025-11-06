@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomeScreen, SearchScreen} from "@/screens";
+import { HomeScreen, EventScreen, SearchScreen} from "@/screens";
 import { Colors } from '@/constants';
 import { SchoolStackParamList } from "@/utils/types";
 import { IconCustom } from "@/utils/custom";
@@ -44,6 +44,21 @@ const SchoolNavigation: React.FC = () => {
             />
           ),
           tabBarLabel: 'Accueil'
+        }}
+      />
+      <SchoolStack.Screen 
+        name="Event"
+        component={EventScreen} 
+        options={{ 
+          title: 'Évènement scolaire',
+          tabBarIcon: ({ color, focused }) => (
+            <IconCustom 
+              iconName={"MaterialIcons"}
+              source={focused ? 'event' : 'event-note'} 
+              color={color} size={24} 
+            />
+          ),
+          tabBarLabel: 'Évènement scolaire'
         }}
       />
       <SchoolStack.Screen 

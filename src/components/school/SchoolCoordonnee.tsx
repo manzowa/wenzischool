@@ -1,18 +1,18 @@
-import { StyleSheet, Text } from "react-native";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import { Card } from "@/utils/card";
-import { IconCustom } from "@/utils/custom";
+import { IconCustom, TextCustom } from "@/utils/custom";
 import { SchoolType } from "@/utils/types";
 import { ButtonLink } from "@/utils/button";
 import { formatAdresse } from "@/utils/helpers";
-import { Colors, AppStyle } from "@/constants";
+import { Colors } from "@/constants";
 import { useLinkActive } from "@/hooks";
 
-type SchoolCoordonneeType = {
+type SchoolCoordonneeProps = {
     school?: SchoolType;
 };
 
-// Fonction générique pour rendre les informations de contact
-const renderContactInfo = (
+const RenderRow= (
     iconName: any,
     source: any,
     text: string | React.ReactNode,
@@ -33,12 +33,12 @@ const renderContactInfo = (
             >  Aller sur le site
             </ButtonLink>
         ) : (
-            <Text style={[AppStyle.caption]}>{text}</Text>
+            <TextCustom type="caption" color="secondary">{text}</TextCustom>
         )}
     </Card.Row>
 );
 
-export const SchoolCoordonnee = ({ school }: SchoolCoordonneeType) => {
+export const SchoolCoordonnee = ({ school }: SchoolCoordonneeProps) => {
     const isActive = useLinkActive(school?.site ?? "");
     return (
         <Card>
@@ -46,55 +46,52 @@ export const SchoolCoordonnee = ({ school }: SchoolCoordonneeType) => {
                 <Card.Title>Informations de l'école</Card.Title>
             </Card.Header>
             <Card.Body>
-                {school?.adresses?.length > 0 &&
-                    school?.adresses.map((adresse: any[], index: number) =>
-                        renderContactInfo(
-                            "FontAwesome6",
-                            "diamond-turn-right",
-                            formatAdresse(adresse),
+                <View>
+                    {school?.adresses?.length > 0 &&
+                        school?.adresses.map((adresse: any[], index: number) =>
+                            RenderRow(
+                                "MaterialIcons",
+                                "place",
+                                formatAdresse(adresse),
+                                false,
+                                `adresse-${index}`
+                            )
+                        )}
+
+                    {school?.telephone &&
+                        RenderRow(
+                            "MaterialIcons",
+                            "local-phone",
+                            school?.telephone,
                             false,
-                            `adresse-${index}`
+                            "telephone"
+                        )}
+
+                    {school?.email &&
+                        RenderRow(
+                            "MaterialCommunityIcons",
+                            "email",
+                            school?.email,
+                            false,
+                            "email"
+                        )}
+
+                    {isActive &&
+                        RenderRow(
+                            "MaterialCommunityIcons",
+                            "web",
+                            school?.site,
+                            true,
+                            "site"
                         )
-                    )}
-
-                {school?.telephone &&
-                    renderContactInfo(
-                        "MaterialIcons",
-                        "local-phone",
-                        school.telephone,
-                        false,
-                        "telephone"
-                    )}
-
-                {school?.email &&
-                    renderContactInfo(
-                        "MaterialCommunityIcons",
-                        "email",
-                        school.email,
-                        false,
-                        "email"
-                    )}
-
-                {isActive &&
-                    renderContactInfo(
-                        "MaterialCommunityIcons",
-                        "web",
-                        school?.site,
-                        true,
-                        "site"
-                    )
-                }
+                    }
+                </View>
             </Card.Body>
         </Card>
     );
 };
 
 const s = StyleSheet.create({
-    card: {},
-    text: {
-        flex: 2,
-        color: Colors.secondary,
-    },
     button: {
         backgroundColor: Colors.primary,
         borderRadius: 5,
@@ -107,5 +104,5 @@ const s = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-    },
+    }
 });

@@ -1,31 +1,29 @@
 import React, { useMemo } from "react";
 import { StyleSheet, View } from 'react-native';
-import { Colors } from "@/constants";
+import { Colors, AppStyle } from "@/constants";
 import { IconCustom, TextCustom } from "@/utils/custom";
 import { formatAdresse, capitalize } from "@/utils/helpers";
-import { SchoolType } from "@/utils/types";
-
-type SchoolImage = SchoolType['images'][number];
+import { SchoolType, ImageType } from "@/utils/types";
 
 // --- Reusable Item Component ---
-type ItemType = {
+type ItemProps = {
   iconName: any;
   source: string;
   nom: string;
   adresses: string;
 };
 
-const Item = React.memo(({ iconName, source, nom, adresses }: ItemType) => (
-  <View style={styles.itemContainer}>
+const Item = React.memo(({ iconName, source, nom, adresses }: ItemProps) => (
+  <View style={s.itemContainer}>
     <IconCustom
       iconName={iconName}
       source={source}
       size={24}
-      style={styles.itemIcon}
-      color={Colors.light}
+      style={[s.itemIcon, AppStyle.defaultTheme]}
+      color={Colors.primary}
     />
-    <View style={styles.itemTextContainer}>
-      <TextCustom type="caption" color="primary">{nom}</TextCustom>
+    <View style={s.itemTextContainer}>
+      <TextCustom type="captionBold" color="primary">{nom}</TextCustom>
       <TextCustom type="caption" color="secondary">{adresses}</TextCustom>
     </View>
   </View>
@@ -34,8 +32,8 @@ Item.displayName = "SchoolItem.Item";
 
 // --- Optimized SchoolItem Component ---
 export const SchoolItem = React.memo(({ nom, adresses, images }: SchoolType) => {
-  const logo: SchoolImage | undefined = useMemo(() => {
-    return images.find((image: SchoolImage) =>
+  const logo: ImageType = useMemo(() => {
+    return images.find((image: ImageType) =>
       image.filename?.toLowerCase().includes("logo")
     );
   }, [images]);
@@ -58,7 +56,7 @@ export const SchoolItem = React.memo(({ nom, adresses, images }: SchoolType) => 
 SchoolItem.displayName = "SchoolItem";
 
 // --- Styles ---
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   itemContainer: {
     flexDirection: "row",
     alignItems: "center",

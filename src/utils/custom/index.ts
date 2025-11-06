@@ -1,3 +1,3 @@
 export { IconCustom } from './IconCustom';
-export { TextCustom } from './TextCustom';
+export { TextCustom, isTextVariant } from './TextCustom';
 export { ButtonCustom } from './ButtonCustom';

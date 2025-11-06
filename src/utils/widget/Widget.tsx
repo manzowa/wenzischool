@@ -1,5 +1,5 @@
-import { forwardRef } from "react";
-import { View, ViewProps, Button } from "react-native";
+import React, { useRef, forwardRef } from 'react';
+import { View, ViewProps, Button, Animated } from "react-native";
 import { Image, ImageProps } from "expo-image";
 import { AppStyle, Colors } from "@/constants";
 import { TextCustom, IconCustom } from "@/utils/custom";
@@ -39,7 +39,8 @@ type GistWidgetProps = {
 };
 
 export const GistWidget = ({ navigation }: GistWidgetProps) => {
-  const handlePress = () => navigation.navigate("Search");
+  const handleSearchPress = () => navigation.navigate("Search");
+  const handleEventPress = () => navigation.navigate("Event");
 
   return (
     <Widget style={AppStyle.gistContainer}>
@@ -48,10 +49,16 @@ export const GistWidget = ({ navigation }: GistWidgetProps) => {
       </TextCustom>
       <View style={AppStyle.gistContent}>
         <IconCustom
+          iconName="MaterialIcons"
+          source="event-note"
+          style={[AppStyle.icon, AppStyle.defaultTheme, { color: Colors.primary }]}
+          onPress={handleEventPress}
+        />
+        <IconCustom
           iconName="Ionicons"
           source="search"
           style={[AppStyle.icon, AppStyle.defaultTheme, { color: Colors.primary }]}
-          onPress={handlePress}
+          onPress={handleSearchPress}
         />
       </View>
     </Widget>
@@ -65,7 +72,7 @@ type InfoWidgetProps = {
 
 export const InfoWidget = ({ navigation }: InfoWidgetProps) => {
   const handlePress = () => navigation.navigate("Support");
-
+  
   return (
     <Widget style={AppStyle.infoContainer}>
       <View>
@@ -79,7 +86,7 @@ export const InfoWidget = ({ navigation }: InfoWidgetProps) => {
           </TextCustom>
           <IconCustom
             iconName="AntDesign"
-            source="questioncircle"
+            source="question-circle"
             size={80}
             style={AppStyle.infoIconRowContent}
           />
@@ -101,7 +108,7 @@ export const SupportWidget = () => (
     <View style={AppStyle.supportContent}>
       <IconCustom
         iconName="AntDesign"
-        source="infocirlce"
+        source="info-circle"
         size={80}
         color={Colors.primary}
       />

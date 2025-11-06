@@ -1,4 +1,7 @@
-import { StyleSheet, Platform } from "react-native";
+import {
+  StyleSheet, Platform,
+  Dimensions, PixelRatio
+} from "react-native";
 import { Colors } from "./Colors";
 
 // Police de base selon la plateforme
@@ -8,6 +11,13 @@ const baseFontFamily = Platform.select({
   default: "System",
 });
 
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const scale = SCREEN_WIDTH / 375; // 375 = largeur iPhone 11
+
+const normalize = (size: number) => {
+  const newSize = size * scale;
+  return Math.round(PixelRatio.roundToNearestPixel(newSize));
+}
 
 export const AppStyle = StyleSheet.create({
   // Background image
@@ -20,16 +30,12 @@ export const AppStyle = StyleSheet.create({
     left: 0,
     zIndex: -1,
   },
-
-  bg: { flex: 1 },
-
+  bg: { flex: 1},
   safeArea: { flex: 1, backgroundColor: Colors.light },
-
   logo: {
     width: 220,
     height: 40,
   },
-
   icon: {
     padding: 10,
     width: 45,
@@ -49,58 +55,46 @@ export const AppStyle = StyleSheet.create({
       },
     }),
   },
-
   scrollContainer: {
     flexGrow: 1,
     justifyContent: "center",
   },
-
-  // Text styles
   title: {
     fontFamily: baseFontFamily,
-    fontSize: 22,
-    lineHeight: 34,
-    letterSpacing: 0.1,
-    marginHorizontal: 5,
+    fontSize: normalize(24),
+    lineHeight: normalize(32),
+    letterSpacing: 0.1
   },
-
   subtitle: {
     fontFamily: baseFontFamily,
-    fontSize: 20,
-    lineHeight: 30,
+    fontSize: normalize(18),
+    lineHeight: normalize(26),
     letterSpacing: 0.1,
   },
-
   body: {
     fontFamily: baseFontFamily,
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: normalize(16),
+    lineHeight: normalize(24),
     letterSpacing: 0.1,
   },
-
   caption: {
     fontFamily: baseFontFamily,
-    fontSize: 12,
-    lineHeight: 18,
-    letterSpacing: 0.1,
-    marginHorizontal: 5,
+    fontSize: normalize(12),
+    lineHeight: normalize(18),
+    letterSpacing: 0.1
   },
-
   medium: {
     fontFamily: baseFontFamily,
-    fontSize: 10,
-    lineHeight: 14,
+    fontSize: normalize(10),
+    lineHeight: normalize(14),
     letterSpacing: 0.1,
   },
-
   small: {
     fontFamily: baseFontFamily,
-    fontSize: 8,
-    lineHeight: 12,
+    fontSize: normalize(8),
+    lineHeight: normalize(12),
     letterSpacing: 0.1,
   },
-
-  // Cards
   card: {
     marginTop: 10,
     paddingHorizontal: 4,
@@ -122,7 +116,6 @@ export const AppStyle = StyleSheet.create({
       },
     }),
   },
-
   cardHeader: {
     borderBottomWidth: 1,
     borderColor: Colors.primary,
@@ -132,12 +125,10 @@ export const AppStyle = StyleSheet.create({
   cardBody: {
     paddingHorizontal: 4,
   },
-
   cardRow: {
     flexDirection: "row",
     gap: 2,
   },
-
   cardTitle: {
     padding: 10,
     fontSize: 14,
@@ -145,7 +136,6 @@ export const AppStyle = StyleSheet.create({
     fontFamily: baseFontFamily,
     color: Colors.primary,
   },
-
   cardSubtitle: {
     padding: 10,
     fontSize: 16,
@@ -153,7 +143,6 @@ export const AppStyle = StyleSheet.create({
     fontFamily: baseFontFamily,
     color: Colors.primary,
   },
-
   cardText: {
     padding: 10,
     fontSize: 14,
@@ -161,8 +150,6 @@ export const AppStyle = StyleSheet.create({
     lineHeight: 20,
     color: Colors.primary,
   },
-
-  // Buttons
   button: {
     paddingVertical: 12,
     paddingHorizontal: 24,
@@ -182,26 +169,20 @@ export const AppStyle = StyleSheet.create({
       },
     }),
   },
-
   buttonText: {
     fontFamily: baseFontFamily,
     fontSize: 12,
     fontWeight: "bold",
     paddingHorizontal: 12,
   },
-
-  // Themes
   defaultTheme: {
     backgroundColor: Colors.light,
-    shadowColor: Colors.light,
+    shadowColor: Colors.light
   },
-
   darkTheme: {
     backgroundColor: Colors.primary,
     shadowColor: Colors.primary,
   },
-
-  // Containers
   welcomeContainer: {
     backgroundColor: Colors.primary,
     borderRadius: 4,
@@ -209,34 +190,30 @@ export const AppStyle = StyleSheet.create({
     margin: 20,
     elevation: 3,
   },
-
   logoContainer: {
     flex: 1,
     margin: 20,
     padding: 5,
   },
-
   gistContainer: {
     flex: 1,
     marginHorizontal: 20,
     justifyContent: "center",
     alignItems: "center",
   },
-
   gistContent: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     padding: 5,
+    gap: 5
   },
-
   infoContainer: {
     flex: 1,
     backgroundColor: Colors.primary,
     padding: 20,
   },
-
   infoRowContent: {
     flex: 1,
     flexDirection: "row",
@@ -244,25 +221,21 @@ export const AppStyle = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
-
   infoTextRowContent: {
     flex: 2,
     fontSize: 12,
     lineHeight: 18,
     color: Colors.light,
   },
-
   infoIconRowContent: {
     flex: 1,
     color: Colors.light,
   },
-
   supportContainer: {
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-
   supportContent: {
     flex: 1,
     flexDirection: "row",
@@ -273,7 +246,6 @@ export const AppStyle = StyleSheet.create({
     marginBottom: 5,
     zIndex: 3,
   },
-
   supportText: {
     flex: 2,
     color: Colors.primary,
@@ -281,13 +253,11 @@ export const AppStyle = StyleSheet.create({
     textAlign: "justify",
     lineHeight: 18,
   },
-
   schoolWidgetContainer: {
     padding: 4,
     marginVertical: 10,
     marginHorizontal: 20,
   },
-
   schoolWidgetEmptyContainer: {
     marginTop: 10,
     alignItems: "center",
@@ -319,10 +289,33 @@ export const AppStyle = StyleSheet.create({
   widgetContainer: {
     padding: 4,
     marginVertical: 10,
-    marginHorizontal: 20,
+    marginHorizontal: 20
   },
   widgetEmptyContainer: {
     marginTop: 10,
     alignItems: "center",
   },
+  boxShadow: {
+    ...Platform.select({
+      ios: {
+        shadowOffset: { width: 0, height: 4 },
+        shadowColor: Colors.primary,
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+      },
+      android: {
+        shadowRadius: 2,
+        elevation: 5,
+      },
+    }),
+  },
+  dottedLine: {
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderColor: Colors.primary,
+    borderStyle: 'dotted',
+    padding: 4,
+    marginVertical: 10,
+  },
+  errorText: {}
 });

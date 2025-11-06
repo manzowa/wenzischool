@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
-import { 
-  SafeAreaView, SafeAreaProvider, 
-  useSafeAreaInsets  
+import {
+  SafeAreaView, SafeAreaProvider,
+  useSafeAreaInsets
 } from "react-native-safe-area-context";
 import {
-  StyleSheet,
   View,
   ScrollView,
   ImageBackground,
@@ -14,40 +13,48 @@ import { Colors, AppImages, AppStyle } from "@/constants";
 import { useSchool } from "@/hooks";
 import { capitalize } from "@/utils/helpers";
 import { BlockWidget, Widget } from "@/utils/widget";
-import { 
-  SchoolType, 
-  SchoolScreenProp
+import {
+  SchoolType,
+  SchoolScreenProps,
+  EventType,
+  ImageType,
+  SchedulesType
 } from "@/utils/types";
-import { SchoolCoordonnee, SchoolSlider } from "@/components";
+import {
+  SchoolCoordonnee, SchoolSlider,
+  SchoolSchedule, SchoolEvent
+} from "@/components";
 
-type SchoolImage = SchoolType['images'][number];
 const MemoizedSchoolSlider = React.memo(SchoolSlider);
 
 /**
  * Écran d'affichage des détails d'une école.
  *
- * @param {SchoolScreenProp} props - Propriétés de navigation et de route.
+ * @param {SchoolScreenProps} props - Propriétés de navigation et de route.
  * @returns {JSX.Element} 
  */
-export function SchoolScreen({ route }: SchoolScreenProp) {
+export function SchoolScreen({ route }: SchoolScreenProps) {
+
   const { schoolid } = route.params;
   const { school, loading } = useSchool(parseInt(schoolid));
   const insets = useSafeAreaInsets();
 
-  const images: SchoolImage[] = useMemo(() => school?.images ?? [], [school?.images]);
-  const logo: SchoolImage | undefined = useMemo(() => {
-    return images.find((image: SchoolImage) =>
+  const images: ImageType[] = useMemo(() => school?.images ?? [], [school?.images]);
+  const logo: ImageType | undefined = useMemo(() => {
+    return images.find((image: ImageType) =>
       image.filename?.toLowerCase().includes('logo')
     );
   }, [images]);
+  const horaires = useMemo(() => school?.horaires ?? [], [school?.horaires]);
+  const eventements = useMemo(() => school?.evenements ?? [], [school?.evenements]);
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={AppStyle.safeArea} >
         <ImageBackground source={AppImages.background} style={AppStyle.bg}>
-          <ScrollView 
+          <ScrollView
             contentContainerStyle={[
-              { 
+              {
                 paddingTop: insets.top,
                 paddingBottom: insets.bottom,
                 paddingLeft: insets.left,
@@ -62,8 +69,8 @@ export function SchoolScreen({ route }: SchoolScreenProp) {
                   color={Colors.primary}
                   style={{ marginTop: 50 }}
                 />
-              ) : (
-                school && <SchoolContent school={school} images={images} logo={logo} />
+              ) : (school && <SchoolContent 
+                school={school} images={images} logo={logo} horaires={horaires} evenements={eventements} />
               )}
             </Widget>
           </ScrollView>
@@ -74,11 +81,16 @@ export function SchoolScreen({ route }: SchoolScreenProp) {
 }
 interface SchoolContentProps {
   school: SchoolType;
-  images: SchoolImage[];
-  logo: SchoolImage;
+  images: ImageType[];
+  logo: ImageType | undefined;
+  horaires: SchedulesType[];
+  evenements: EventType[];
 }
-const SchoolContent = ({ school, images, logo }: SchoolContentProps) => (
-  <View style={s.containerSchool}>
+const SchoolContent = ({ school, images, logo, horaires, evenements }: SchoolContentProps) => (
+  <View style={{
+    marginBottom: 20,
+    marginTop: 10
+  }}>
     <BlockWidget
       iconName={logo ? 'Logo' : 'Ionicons'}
       source={logo?.url ?? 'school-sharp'}
@@ -86,15 +98,8 @@ const SchoolContent = ({ school, images, logo }: SchoolContentProps) => (
       color={Colors.primary}
     />
     <SchoolCoordonnee school={school} />
+    <SchoolSchedule horaires={horaires} />
+    <SchoolEvent evenements={evenements} />
     <MemoizedSchoolSlider images={images} />
   </View>
 );
-const s = StyleSheet.create({
-  containerSchool: {
-    marginBottom: 20,
-    marginTop: 10
-  },
-  loadingIndicator: {
-    marginTop: 50,
-  }
-});

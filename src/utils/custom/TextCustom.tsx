@@ -22,6 +22,15 @@ type TextCustomProps = TextProps & {
   type?: TextVariant;
   color?: TextColor;
 };
+export const isTextVariant = (value: any): value is TextVariant =>
+  [
+    "title", "titleBold",
+    "subtitle", "subtitleBold",
+    "body", "bodyBold",
+    "caption", "captionBold",
+    "small", "smallBold",
+    "medium", "mediumBold",
+  ].includes(value);
 
 export const TextCustom = ({
   children,
@@ -75,3 +84,4 @@ export const TextCustom = ({
     </Text>
   );
 };
+

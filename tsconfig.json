@@ -16,5 +16,16 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["env.d.ts", "App.tsx", "index.ts", "src/**/*", "tests/**/*"]
+  "include": [
+    "env.d.ts",
+    "App.tsx",
+    "index.ts",
+    "src/**/*",
+    "tests/**/*",
+    "types/**/*"  // Add this if you have a custom types directory
+  ],
+  "types": [
+    "node",
+    "json-schema"  // If you have custom type definitions for json-schema
+  ]
 }

@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-  memo
-} from 'react';
+import React, { useEffect, useRef, useState, useCallback, memo } from 'react';
 import {
   View,
   FlatList,
@@ -19,6 +13,7 @@ import {
 
 import { ucfirst } from "@/utils/helpers";
 import { SchoolType } from '@/utils/types';
+import { AppStyle } from '@/constants';
 
 type SchoolImage = SchoolType['images'][number];
 interface ImageSliderProps {
@@ -118,17 +113,17 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, autoSlideInterval = 3
   if (!layoutReady) return null;
 
   return (
-    <View style={[s.container, { height: sliderHeight }]}>
+    <View style={[s.container, AppStyle.boxShadow, { height: sliderHeight }]}>
       <FlatList
         ref={flatListRef}
         data={images}
         horizontal
         pagingEnabled
-        scrollEnabled={!isPlaying}
+        scrollEnabled={isPlaying ? false : true}  // Désactive le défilement automatique si en pause
         showsHorizontalScrollIndicator={false}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
-        onMomentumScrollEnd={onScrollEnd}
+        onMomentumScrollEnd={onScrollEnd}  // Ajoute la logique à la fin du mouvement de défilement
         getItemLayout={(_, index) => ({
           length: width,
           offset: width * index,
@@ -141,8 +136,8 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images, autoSlideInterval = 3
         windowSize={5}
         removeClippedSubviews={true}
         extraData={[currentIndex, width]}
-        onScrollBeginDrag={stopAutoSlide}
-        onScrollEndDrag={() => isPlaying && startAutoSlide()}
+        onScrollBeginDrag={stopAutoSlide}  // Arrête l'auto-slide dès que l'utilisateur commence à glisser
+        onScrollEndDrag={() => isPlaying && startAutoSlide()}  // Relance l'auto-slide quand l'utilisateur arrête de glisser
       />
       <View style={s.pagination}>
         {images.map((_, index) => (
@@ -171,9 +166,10 @@ const s = StyleSheet.create({
   },
   image: {
     height: '100%',
+    borderRadius: 4
   },
   imageContainer: {
-    position: 'relative',
+    position: 'relative'
   },
   pagination: {
     flexDirection: 'row',

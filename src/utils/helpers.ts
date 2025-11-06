@@ -9,7 +9,7 @@ import { SchoolType } from "./types";
  * @return {string}
  */
 export function capitalize(strValue: string) {
-    return String(strValue).charAt(0).toUpperCase() + String(strValue).slice(1);
+  return String(strValue).charAt(0).toUpperCase() + String(strValue).slice(1);
 };
 /**
  * @function isEmpty
@@ -20,9 +20,9 @@ export function capitalize(strValue: string) {
  * @returns {boolean}
  */
 export function isEmpty(strValue: string) {
-    let o = new String(strValue);
-    let res: boolean = o?.toString() === "null" || o.toString() === "" ? true : false;
-    return res;
+  let o = new String(strValue);
+  let res: boolean = o?.toString() === "null" || o.toString() === "" ? true : false;
+  return res;
 };
 /**
  * @function formatAdresse
@@ -33,17 +33,17 @@ export function isEmpty(strValue: string) {
  * @returns {string}
  */
 export function formatAdresse(data?: SchoolType["adresses"]) {
-    if (data !== null && data?.voie) {
-        let voie:string = capitalize(data?.voie);
-        let quartier:string = isEmpty(data?.quartier)? "?" : capitalize(data.quartier?.toString());
-        let commune:string = capitalize(data?.commune);
-        let district:string = capitalize(data?.district);
-        let ville:string = capitalize(data?.ville);
-        let reference:string =data?.reference != null? capitalize(data?.reference): "";
+  if (data !== null && data?.voie) {
+    let voie: string = capitalize(data?.voie);
+    let quartier: string = isEmpty(data?.quartier) ? "?" : capitalize(data.quartier?.toString());
+    let commune: string = capitalize(data?.commune);
+    let district: string = capitalize(data?.district);
+    let ville: string = capitalize(data?.ville);
+    let reference: string = data?.reference != null ? capitalize(data?.reference) : "";
 
-        return `${voie}, Q/${quartier}, C/${commune}, ${district}, ${ville}, ${reference}`;
-    }
-    return "Aucune adresse disponible";
+    return `${voie}, Q/${quartier}, \nC/${commune}, ${district}, ${ville}, \n${reference}`;
+  }
+  return "Aucune adresse disponible";
 };
 /**
  * @function iconSchool
@@ -54,7 +54,7 @@ export function formatAdresse(data?: SchoolType["adresses"]) {
  * @returns {string}
  */
 export function iconSchool(bool: boolean) {
-    return bool === true ? ("Logo"): ("Ionicons");
+  return bool === true ? ("Logo") : ("Ionicons");
 };
 
 /**
@@ -65,9 +65,29 @@ export function iconSchool(bool: boolean) {
  * 
  * @returns {string}
  */
-export function formatDate(valDate: any) {
-    let oDate = new Date(valDate);
-    return oDate.toLocaleDateString();
+export function formatDate(valDate: any, withTime: boolean = false) {
+  let oDate = new Date(valDate);
+
+  // Récupérer les composants de la date
+  const dayOfWeek = oDate.toLocaleString('fr-FR', { weekday: 'long' });
+  const day = oDate.toLocaleString('fr-FR', { day: 'numeric' });
+  const month = oDate.toLocaleString('fr-FR', { month: 'long' });
+  const year = oDate.toLocaleString('fr-FR', { year: 'numeric' });
+
+  // Créer la chaîne de base (sans l'heure)
+  let formattedDate = `${ucfirst(dayOfWeek)} ${day} ${month} ${year}`;
+
+  // Si on veut ajouter l'heure, on le fait ici
+  if (withTime) {
+    const hour = oDate.getHours();
+    const minute = oDate.getMinutes();
+
+    // Ajouter l'heure et la minute dans le format "à 10H05"
+    const formattedTime = ` à ${hour}H${minute < 10 ? '0' + minute : minute}`;
+    formattedDate += formattedTime;
+  }
+
+  return formattedDate;
 };
 
 /**
@@ -79,14 +99,14 @@ export function formatDate(valDate: any) {
  * @returns {Array}
  */
 export function getArrayLogo(data: any[]) {
-    if (data && data.length > 0) {
-        return data.filter((d: any) => d.filename.includes('logo'));
-    }
-    return [];
+  if (data && data.length > 0) {
+    return data.filter((d: any) => d.filename.includes('logo'));
+  }
+  return [];
 }
 
 export function ucfirst(str: string) {
-   if (typeof str !== "string" || !str) {
+  if (typeof str !== "string" || !str) {
     return "";
   }
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -103,3 +123,48 @@ export async function isLinkActive(url: string) {
     return false;
   }
 };
+
+export function formaTimer(time: string, withSeconds: boolean = false) {
+  if (time.length === 5) {
+    time += ":00"; 
+  }
+  const [hour, minute, second] = time.split(':').map(num => parseInt(num, 10));
+
+  let formattedTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+
+  if (withSeconds) {
+    formattedTime += `:${second.toString().padStart(2, '0')}`;
+  }
+
+  return formattedTime;
+};
+
+export function isDatePassedOrValid(param: Date | string): boolean | string {
+  // Fonction pour vérifier si la date est valide
+  function isValidDate(date: Date | string): boolean {
+    let parsedDate: Date;
+
+    if (date instanceof Date) {
+      parsedDate = date;
+    } else if (typeof date === 'string') {
+      // Manually split the date and time to handle the custom format
+      const [datePart, timePart] = date.split(' ');
+      const formattedDate = `${datePart}T${timePart}`;
+      parsedDate = new Date(formattedDate);
+    } else {
+      return false;
+    }
+
+    return !isNaN(parsedDate.getTime());
+  }
+
+  // Si le paramètre n'est pas valide, retourne un message d'erreur
+  if (!isValidDate(param)) {
+    return 'Date invalide';
+  }
+
+  const dateToCheck = new Date(param);
+  const now = new Date();
+
+  return dateToCheck < now;
+}
