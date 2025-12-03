@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SchoolType } from "@/utils/types";
-import { fetchSchools, fetchSchoolsByName } from "@/services/api";
+import { fetchSchools, fetchSchoolsByName } from "@/services/api/schools";
 
 export function useSchoolsBy(name: string, limit: number = 5, offset: number = 1) {
   const [schools, setSchools] = useState<SchoolType[]>([]);
@@ -17,11 +17,11 @@ export function useSchoolsBy(name: string, limit: number = 5, offset: number = 1
 
         if (name.trim()) {
           // Si un nom est fourni → recherche filtrée
-          data = await fetchSchoolsByName({ name, limit });
+          data = await fetchSchoolsByName(name, limit);
         } else {
           // Sinon → fetch général avec offset
           const page: number = offset;
-          data = await fetchSchools({page, limit });
+          data = await fetchSchools(page, limit);
         }
 
         setSchools(data);

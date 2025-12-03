@@ -27,6 +27,7 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "orientation": "default",   // <-- ✅ allowed here
     "android": {
       "package": "com.manzowa.wenzischool"
     },

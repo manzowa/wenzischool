@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { EventType} from "@/utils/types";
-import { fetchEvent} from "@/services/api";
+import { fetchEvent} from "@/services/api/events";
 
 export function useEvent(eventid: number | null) {
     const [events, setEvents] = useState<EventType[]>([]);

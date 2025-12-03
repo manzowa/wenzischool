@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SchoolType} from "@/utils/types";
-import { fetchSchool } from "@/services/api";
+import { fetchSchool } from "@/services/api/schools";
 
 export function useSchool(id: number = 0) {
     const [school, setSchool] = useState<SchoolType | null>(null);

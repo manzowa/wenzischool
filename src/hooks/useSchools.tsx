@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SchoolType} from "@/utils/types";
-import { fetchSchools } from "@/services/api";
+import { fetchSchools } from "@/services/api/schools";
 
 export function useSchools(page = 1, limit = 5) {
     const [schools, setSchools] = useState<SchoolType[]>([]);
@@ -9,7 +9,7 @@ export function useSchools(page = 1, limit = 5) {
     useEffect(() => {
         async function getSchools() {
             setLoading(true);
-            const data = await fetchSchools({ page, limit });
+            const data = await fetchSchools(page, limit);
             setSchools(data);
             setLoading(false);
         }

@@ -50,10 +50,13 @@ yarn-error.log*
 
 # Env files (sensible information)
 .env
+.env.js
+.env.json
 .env.local
 .env.*.local
 expo-env.d.ts
 env.d.ts
+
 
 
 # Metro

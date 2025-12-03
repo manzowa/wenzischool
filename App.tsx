@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AppNavigation } from '@/navigations';
 import * as SplashScreen from 'expo-splash-screen';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import * as Device from 'expo-device';
 import {
   StatusBar,
   View,
@@ -15,15 +16,19 @@ import {
 import NetworkBanner from '@/components/NetworkBanner';
 import { Colors, AppStyle } from '@/constants';
 
+// Prevent auto hide of splash screen
 SplashScreen.preventAutoHideAsync().catch(console.warn);
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
 
+  /**
+   * Prepare app (load resources, fonts, etc.)
+   */
   useEffect(() => {
     const prepareApp = async () => {
       try {
-        // Tu peux charger ici des ressources si nécessaire
+        // Charger des ressources si nécessaire
       } catch (e) {
         console.warn('Erreur de préparation de l’application :', e);
       } finally {
@@ -33,31 +38,58 @@ export default function App() {
     prepareApp();
   }, []);
 
-  // 💡 Appel de lockAsync une fois que l'app est prête + activité active
+  /**
+   * 🔐 Lock Orientation safely
+   */
   useEffect(() => {
     if (!appIsReady) return;
 
+    let timeoutId: NodeJS.Timeout | null = null;
+    let isMounted = true;
+
     const lockOrientation = async () => {
       try {
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+        if (!isMounted) return;
+        if (Platform.OS === 'web') return;
+        if (Platform.OS === 'ios' && !Device.isDevice) {
+          console.warn('[Orientation info] Ignoré sur iOS Simulator');
+          return;
+        }
+
+        await ScreenOrientation.lockAsync(
+          ScreenOrientation.OrientationLock.PORTRAIT_UP
+        );
       } catch (err) {
         console.warn('[Orientation error]', err);
       }
     };
 
-    const subscription = AppState.addEventListener('change', (state) => {
+    const handleAppStateChange = (state: string) => {
       if (state === 'active') {
-        setTimeout(lockOrientation, 100); // Donne le temps à l'activité de se stabiliser
+        // Small delay ensures activity is ready on Android
+        timeoutId = setTimeout(lockOrientation, 100);
       }
-    });
+    };
 
-    // Appel initial
+    // Listen for app state changes
+    const subscription = AppState.addEventListener(
+      'change',
+      handleAppStateChange
+    );
+
+    // Initial orientation lock
     lockOrientation();
 
-    return () => subscription.remove();
+    return () => {
+      isMounted = false;
+      if (timeoutId) clearTimeout(timeoutId);
+      subscription.remove();
+    };
   }, [appIsReady]);
 
-  // 💡 SplashScreen.hide() uniquement quand tout est prêt
+  /**
+   * Hide SplashScreen when ready
+   */
   useEffect(() => {
     if (appIsReady) {
       SplashScreen.hideAsync().catch(console.warn);
