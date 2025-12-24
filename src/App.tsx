@@ -11,46 +11,46 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
-  AppState
+  AppState,
 } from 'react-native';
 import NetworkBanner from '@/components/NetworkBanner';
 import { Colors, AppStyle } from '@/constants';
 
-// Prevent auto hide of splash screen
-SplashScreen.preventAutoHideAsync().catch(console.warn);
+// ⛔ Empêche le splash screen de se cacher automatiquement
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
 
   /**
-   * Prepare app (load resources, fonts, etc.)
+   * Préparation de l’application
    */
   useEffect(() => {
     const prepareApp = async () => {
       try {
-        // Charger des ressources si nécessaire
-      } catch (e) {
-        console.warn('Erreur de préparation de l’application :', e);
+        // Charger fonts / assets si nécessaire
+      } catch (error) {
+        console.warn('Erreur de préparation de l’application :', error);
       } finally {
         setAppIsReady(true);
       }
     };
+
     prepareApp();
   }, []);
 
   /**
-   * 🔐 Lock Orientation safely
+   * 🔐 Gestion SAFE du verrouillage d’orientation
    */
   useEffect(() => {
     if (!appIsReady) return;
+    if (Platform.OS === 'web') return;
 
     let timeoutId: NodeJS.Timeout | null = null;
-    let isMounted = true;
 
     const lockOrientation = async () => {
       try {
-        if (!isMounted) return;
-        if (Platform.OS === 'web') return;
+        // iOS Simulator n’a pas d’orientation réelle
         if (Platform.OS === 'ios' && !Device.isDevice) {
           console.warn('[Orientation info] Ignoré sur iOS Simulator');
           return;
@@ -59,43 +59,47 @@ export default function App() {
         await ScreenOrientation.lockAsync(
           ScreenOrientation.OrientationLock.PORTRAIT_UP
         );
-      } catch (err) {
-        console.warn('[Orientation error]', err);
+      } catch (error) {
+        console.warn('[Orientation error]', error);
       }
     };
 
     const handleAppStateChange = (state: string) => {
       if (state === 'active') {
-        // Small delay ensures activity is ready on Android
+        // ⏱️ Délai nécessaire sur Android
         timeoutId = setTimeout(lockOrientation, 100);
       }
     };
 
-    // Listen for app state changes
+    // 🔒 Lock initial
+    lockOrientation();
+
     const subscription = AppState.addEventListener(
       'change',
       handleAppStateChange
     );
 
-    // Initial orientation lock
-    lockOrientation();
-
     return () => {
-      isMounted = false;
       if (timeoutId) clearTimeout(timeoutId);
       subscription.remove();
+
+      // 🔓 Libère l’orientation au démontage
+      ScreenOrientation.unlockAsync().catch(() => {});
     };
   }, [appIsReady]);
 
   /**
-   * Hide SplashScreen when ready
+   * 🎬 Cache le splash screen quand l’app est prête
    */
   useEffect(() => {
     if (appIsReady) {
-      SplashScreen.hideAsync().catch(console.warn);
+      SplashScreen.hideAsync().catch(() => {});
     }
   }, [appIsReady]);
 
+  /**
+   * ⏳ Écran de chargement
+   */
   if (!appIsReady) {
     return (
       <View style={AppStyle.appLoadingContainer}>
@@ -107,6 +111,9 @@ export default function App() {
     );
   }
 
+  /**
+   * 🚀 Application
+   */
   return (
     <NavigationContainer>
       <StatusBar
@@ -114,11 +121,12 @@ export default function App() {
         backgroundColor={Colors.primary}
         barStyle="light-content"
       />
+
       <NetworkBanner />
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
       >
         <AppNavigation />
       </KeyboardAvoidingView>

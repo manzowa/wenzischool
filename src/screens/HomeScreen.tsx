@@ -51,7 +51,6 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
         <ImageBackground
           source={AppImages.background}
           resizeMode="cover"
-          style={AppStyle.bg}
         >
           <Animated.View style={{ opacity: fadeAnim, transform: [{ scale: scaleAnim }] }}>
             <ScrollView

@@ -27,7 +27,7 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "orientation": "default",   // <-- ✅ allowed here
+    "orientation": "default",
     "android": {
       "package": "com.manzowa.wenzischool"
     },
@@ -39,7 +39,8 @@
           "initialOrientation": "DEFAULT"
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-web-browser"
     ],
     "extra": {
       "eas": {

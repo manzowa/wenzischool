@@ -16,7 +16,7 @@ export function  SupportScreen() {
     return(
         <SafeAreaProvider>
             <SafeAreaView style={AppStyle.safeArea}>
-                <ImageBackground source={AppImages.background} style={AppStyle.bg}>
+                <ImageBackground source={AppImages.background}>
                     <ScrollView  contentContainerStyle={[
                         AppStyle.scrollContainer, 
                         { 

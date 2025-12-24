@@ -51,7 +51,7 @@ export function SchoolScreen({ route }: SchoolScreenProps) {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={AppStyle.safeArea} >
-        <ImageBackground source={AppImages.background} style={AppStyle.bg}>
+        <ImageBackground source={AppImages.background}>
           <ScrollView
             contentContainerStyle={[
               {

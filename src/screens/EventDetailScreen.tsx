@@ -76,7 +76,7 @@ export function EventDetailScreen({ route }: EventDetailScreenProps) {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={AppStyle.safeArea}>
-        <ImageBackground source={AppImages.background} resizeMode="cover" style={AppStyle.bg}>
+        <ImageBackground source={AppImages.background} resizeMode="cover">
           <ScrollView
             contentContainerStyle={{
               paddingTop: insets.top,

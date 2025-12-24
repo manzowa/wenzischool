@@ -1,6 +1,6 @@
 import {
-  StyleSheet, Platform,
-  Dimensions, PixelRatio
+  StyleSheet, TextStyle, ViewStyle,
+  Platform, Dimensions, PixelRatio
 } from "react-native";
 import { Colors } from "./Colors";
 
@@ -10,6 +10,13 @@ const baseFontFamily = Platform.select({
   android: "sans-serif",
   default: "System",
 });
+const LETTER_SPACING = 0.1;
+const CARD_RADIUS = 4;
+const CARD_PADDING = 4;
+const CARD_TEXT_PADDING = 10;
+const BUTTON_RADIUS = 8;
+const BUTTON_PADDING_Y = 12;
+const BUTTON_PADDING_X = 24;
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const scale = SCREEN_WIDTH / 375; // 375 = largeur iPhone 11
@@ -19,9 +26,60 @@ const normalize = (size: number) => {
   return Math.round(PixelRatio.roundToNearestPixel(newSize));
 }
 
+const textStyle = (size: number, lineHeight: number): TextStyle => ({
+  fontFamily: baseFontFamily,
+  fontSize: normalize(size),
+  lineHeight: normalize(lineHeight),
+  letterSpacing: LETTER_SPACING,
+});
+
+const cardShadow: ViewStyle = Platform.select({
+  ios: {
+    shadowOffset: { width: 0, height: 4 },
+    shadowColor: Colors.primary,
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+  },
+  android: {
+    elevation: 5,
+  },
+}) as ViewStyle;
+
+const cardTextBase: TextStyle = {
+  fontFamily: baseFontFamily,
+  color: Colors.primary,
+  padding: CARD_TEXT_PADDING,
+};
+
+const buttonShadow: ViewStyle = Platform.select({
+  ios: {
+    shadowColor: Colors.dark,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  android: {
+    elevation: 4,
+  },
+}) as ViewStyle;
+
+const buttonBase: ViewStyle = {
+  paddingVertical: BUTTON_PADDING_Y,
+  paddingHorizontal: BUTTON_PADDING_X,
+  borderRadius: BUTTON_RADIUS,
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const buttonTextBase: TextStyle = {
+  fontFamily: baseFontFamily,
+  fontWeight: '700',
+};
+
 export const AppStyle = StyleSheet.create({
   // Background image
   background: {
+    flex: 1,
     width: "100%",
     height: "100%",
     resizeMode: "cover",
@@ -59,121 +117,70 @@ export const AppStyle = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "center",
   },
-  title: {
-    fontFamily: baseFontFamily,
-    fontSize: normalize(24),
-    lineHeight: normalize(32),
-    letterSpacing: 0.1
-  },
-  subtitle: {
-    fontFamily: baseFontFamily,
-    fontSize: normalize(18),
-    lineHeight: normalize(26),
-    letterSpacing: 0.1,
-  },
-  body: {
-    fontFamily: baseFontFamily,
-    fontSize: normalize(16),
-    lineHeight: normalize(24),
-    letterSpacing: 0.1,
-  },
-  caption: {
-    fontFamily: baseFontFamily,
-    fontSize: normalize(12),
-    lineHeight: normalize(18),
-    letterSpacing: 0.1
-  },
-  medium: {
-    fontFamily: baseFontFamily,
-    fontSize: normalize(10),
-    lineHeight: normalize(14),
-    letterSpacing: 0.1,
-  },
-  small: {
-    fontFamily: baseFontFamily,
-    fontSize: normalize(8),
-    lineHeight: normalize(12),
-    letterSpacing: 0.1,
-  },
+  title: textStyle(24, 32),
+  subtitle: textStyle(18, 26),
+  body: textStyle(16, 24),
+  caption: textStyle(12, 18),
+  medium: textStyle(10, 14),
+  small: textStyle(8, 12),
   card: {
     marginTop: 10,
-    paddingHorizontal: 4,
-    paddingTop: 4,
+    paddingHorizontal: CARD_PADDING,
+    paddingTop: CARD_PADDING,
     paddingBottom: 8,
-    borderRadius: 4,
+    borderRadius: CARD_RADIUS,
     borderWidth: 1,
     borderColor: Colors.light,
     backgroundColor: Colors.light,
-    ...Platform.select({
-      ios: {
-        shadowOffset: { width: 0, height: 4 },
-        shadowColor: Colors.primary,
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
+    ...cardShadow,
   },
   cardHeader: {
     borderBottomWidth: 1,
     borderColor: Colors.primary,
-    borderRadius: 4,
+    borderRadius: CARD_RADIUS,
     marginBottom: 5,
   },
   cardBody: {
-    paddingHorizontal: 4,
+    paddingHorizontal: CARD_PADDING,
   },
   cardRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 2,
   },
   cardTitle: {
-    padding: 10,
+     ...cardTextBase,
     fontSize: 14,
-    fontWeight: "bold",
-    fontFamily: baseFontFamily,
-    color: Colors.primary,
+    fontWeight: '700',
   },
   cardSubtitle: {
-    padding: 10,
+    ...cardTextBase,
     fontSize: 16,
-    fontWeight: "bold",
-    fontFamily: baseFontFamily,
-    color: Colors.primary,
+    fontWeight: '700',
   },
   cardText: {
-    padding: 10,
+    ...cardTextBase,
     fontSize: 14,
-    fontFamily: baseFontFamily,
     lineHeight: 20,
-    color: Colors.primary,
+    fontWeight: '400'
   },
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    ...Platform.select({
-      ios: {
-        elevation: 4,
-        shadowColor: Colors.dark,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      android: {
-        elevation: 4,
-      },
-    }),
+    ...buttonBase,
+    ...buttonShadow,
   },
   buttonText: {
-    fontFamily: baseFontFamily,
+    ...buttonTextBase,
     fontSize: 12,
-    fontWeight: "bold",
     paddingHorizontal: 12,
+  },
+  buttonTextDefault: {
+    ...buttonTextBase,
+    fontSize: 16,
+    color: Colors.light,
+  },
+  buttonTextDark: {
+     ...buttonTextBase,
+    fontSize: 16,
+    color: Colors.secondary,
   },
   defaultTheme: {
     backgroundColor: Colors.light,
@@ -273,16 +280,6 @@ export const AppStyle = StyleSheet.create({
     fontSize: 16,
     color: Colors.primary,
   },
-  buttonTextDefault: {
-    fontSize: 16,
-    color: Colors.light,
-    fontFamily: baseFontFamily,
-  },
-  buttonTextDark: {
-    fontSize: 16,
-    color: Colors.secondary,
-    fontFamily: baseFontFamily,
-  },
   disabled: {
     opacity: 0.5,
   },
@@ -317,5 +314,4 @@ export const AppStyle = StyleSheet.create({
     padding: 4,
     marginVertical: 10,
   },
-  errorText: {}
 });

@@ -51,7 +51,6 @@ export function EventScreen() {
         <ImageBackground
           source={AppImages.background}
           resizeMode="cover"
-          style={AppStyle.bg}
         >
           <ScrollView
             contentContainerStyle={{

@@ -48,7 +48,7 @@ export function SearchScreen({ navigation }: SearchScreenProp)
   return (
     <SafeAreaProvider>
       <SafeAreaView style={AppStyle.safeArea}>
-        <ImageBackground source={AppImages.background} style={AppStyle.bg}>
+        <ImageBackground source={AppImages.background} >
           <ScrollView contentContainerStyle={[
               { 
                 paddingTop: insets.top,
