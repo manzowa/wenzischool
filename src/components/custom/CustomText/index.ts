@@ -1,0 +1,1 @@
+export { CustomText,isTextVariant, type CustomTextProps } from './CustomText';

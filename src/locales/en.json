@@ -1,0 +1,98 @@
+{
+  "welcome": "Welcome",
+  "change_language": "Change Language",
+  "account": "Account",
+  "account_text": "Log in or create an account to access your space, add an event and much more.",
+  "lang": "Language",
+  "theme": "Theme",
+  "fr": "French",
+  "en": "English",
+  "local":"en-US",
+  "automatic": "Automatic",
+  "dark": "Dark",
+  "light": "Light",
+  "log_in": "Log in",
+  "log_out": "Log out",
+  "sign_up": "Sign up",
+  "password": "Password",
+  "email": "Email",
+  "confirm_password": "Confirm Password",
+  "forgot_password": "Forgot password?",
+  "home": "Home",
+  "essentials_message":"Discover the key information about schools",
+  "welcome_message": "Hi!\n Find out more about your favorite schools.",
+  "recently_added": "Recently added",
+  "no_school": "No school is available at the moment.",
+  "no_school_alter": "No result found for ",
+  "error_loading_data": "Unable to load data.",
+  "info_help_title": "Need help?",
+  "info_help_message": "Get quick answers or talk to one of our agents.",
+  "info_help_button": "Help Center",
+  "support_title": "Technical support",
+  "support_message": "Some addresses may be inaccurate. We are working to improve them and appreciate your understanding.",
+  "event_details": "Event details",
+  "event_filter_title": "Event filter",
+  "choose_date": "Choose a date",
+  "choose_town": "All towns",
+  "town_default": "kinshasa",
+  "school_event": "School Event",
+  "no_data": "No data available at the moment.",
+  "no_event": "No event available at the moment.",
+  "no_image": "No image available at the moment.",
+  "ongoing": "Ongoing",
+  "past": "Past",
+  "search": "Search",
+  "school": "School",
+  "school_info": "School information",
+  "support_center": "Support & help",
+  "support_center_help_title": "Need help? Contact us, we are here to help you.",
+  "support_center_faq_title": "FAQ",
+  "support_center_message": "How to contact technical support? \nHow to edit the school information?",
+  "support_center_button": "Go to Manzowa",
+  "search_title": "Search for a school in Kinshasa",
+  "search_placeholder": "Find by school name",
+  "settings": "Settings",
+  "go_to": "Go to site",
+  "no_schedule": "No schedule available at the moment.",
+  "school_schedule": "Weekly schedule",
+  "from": "From",
+  "to": "to",
+  "closed": "Closed",
+  "lundi": "Monday",
+  "mardi": "Tuesday",
+  "mercredi": "Wednesday",
+  "jeudi": "Thursday",
+  "vendredi": "Friday",
+  "samedi": "Saturday",
+  "dimanche": "Sunday",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+  "school_event_title": "School Event",
+  "pause": "Pause",
+  "start": "Start",
+  "play": "Play",
+  "stop": "Stop"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

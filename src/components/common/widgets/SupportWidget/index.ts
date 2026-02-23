@@ -1,0 +1,1 @@
+export { SupportWidget, type SupportWidgetProps } from './SupportWidget';

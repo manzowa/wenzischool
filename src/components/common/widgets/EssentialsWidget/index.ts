@@ -1,0 +1,1 @@
+export {EssentialsWidget, type EssentialsWidgetProps } from './EssentialsWidget';

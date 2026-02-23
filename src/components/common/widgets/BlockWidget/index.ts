@@ -1,0 +1,1 @@
+export { BlockWidget, type BlockWidgetProps } from './BlockWidget';

@@ -1,23 +1,26 @@
-import React from "react";
+import { useTranslation } from 'react-i18next';
 import {
-  ScrollView,
-  StyleSheet,
-  ImageBackground,
-  Image,
-  View,
-  ActivityIndicator,
+  ScrollView, ScrollViewProps,
+  ImageBackground, ImageBackgroundProps,
+  Image, View, ViewStyle, StyleProp,
+  Animated
 } from "react-native";
 import {
   SafeAreaProvider,
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { AppImages, AppStyle, Colors } from "@/constants";
-import { EventDetailScreenProps } from "@/utils/types";
-import { Widget } from "@/utils/widget";
-import { IconCustom, TextCustom , isTextVariant } from "@/utils/custom";
-import { formatDate } from "@/utils/helpers";
-import { useEvent } from "@/hooks/useEvent";
+import { useAppStyle } from "@/constants";
+import { EventDetailScreenProps } from "@/types";
+import { 
+  Widget 
+} from "@/components/common/widgets";
+import { 
+  CustomIcon, CustomText
+} from "@/components/custom";
+import { formatDate } from "@/utils";
+import { useEvent, useTheme, useFadeScaleAnimation } from "@/hooks";
+import { Loading } from "@/components/common/Loading";
 
 type RewriteLineProps = {
   iconName?: any;
@@ -27,16 +30,37 @@ type RewriteLineProps = {
   color?: any;
 };
 
-const RewriteLine = ({ iconName, source, type, text, color }: RewriteLineProps) => (
-  <View style={s.lineContainer}>
-    <IconCustom iconName={iconName} size={24} color={Colors.primary} source={source} />
-    <TextCustom type={isTextVariant(type) ? type : "body"} color={color} style={s.lineText}>
-      {text}
-    </TextCustom>
-  </View>
-);
+const RewriteLine = ({ iconName, source, type, text, color }: RewriteLineProps) => {
+  const { theme } = useTheme();
+  const ss = useAppStyle({ theme });
 
-export function EventDetailScreen({ route }: EventDetailScreenProps) {
+  return (
+    <View style={ss.eventDetailContainer}>
+      {
+        source === "title" ? (
+          <CustomText style={[{ color: theme.colors.primary }, ss.medium, ss.bold]}>
+            {text}
+          </CustomText>
+        ) : (
+          <>
+            <CustomIcon iconName={iconName} size={24} style={{ color: theme.colors.primary }} source={source} />
+            <CustomText style={[{ color: theme.colors.secondary }, ss.extraSmall, { textAlign: 'justify', paddingRight: 12 }]}>
+              {text}
+            </CustomText>
+          </>
+        )
+      }
+
+    </View>
+  )
+};
+
+export default function EventDetailScreen({ route }: EventDetailScreenProps) {
+  const { t } = useTranslation();
+  const { theme } = useTheme();
+  const ss = useAppStyle({ theme });
+  const { animatedStyle } = useFadeScaleAnimation({ duration: 400 });
+
   const insets = useSafeAreaInsets();
   const { eventId } = route.params;
   const { events, loading } = useEvent(parseInt(eventId));
@@ -45,18 +69,18 @@ export function EventDetailScreen({ route }: EventDetailScreenProps) {
 
   if (loading) {
     return (
-      <SafeAreaView style={[AppStyle.safeArea]}>
-        <ActivityIndicator size="large" color={Colors.primary} />
+      <SafeAreaView style={[ss.flex]}>
+        <Loading />
       </SafeAreaView>
     );
   }
 
   if (!event) {
     return (
-      <SafeAreaView style={[AppStyle.safeArea]}>
-        <TextCustom type="body" color="secondary">
+      <SafeAreaView style={[ss.flex]}>
+        <CustomText type="body" style={{ color: theme.colors.secondary }}>
           Aucune donnée disponible
-        </TextCustom>
+        </CustomText>
       </SafeAreaView>
     );
   }
@@ -68,61 +92,48 @@ export function EventDetailScreen({ route }: EventDetailScreenProps) {
     {
       source: "calendar-today",
       type: "caption",
-      text: formatDate(event.date, true),
+      text: formatDate(event.date, true, t("local"), t('from')),
       color: "secondary",
     },
   ];
+  const scrollStyle: StyleProp<ViewStyle> = {
+    paddingTop: insets.top,
+    paddingBottom: insets.bottom,
+    paddingLeft: insets.left,
+    paddingRight: insets.right,
+    flexGrow: 1,
+    justifyContent: "center"
+  };
+  const scrollViewProps: ScrollViewProps = {
+    contentContainerStyle: scrollStyle,
+    contentInsetAdjustmentBehavior: "automatic",
+    showsVerticalScrollIndicator: false,
+    bounces: false,
+  };
+  const bgProps: ImageBackgroundProps = {
+    style: ss.flex,
+    source: theme.images.background,
+    resizeMode: "cover",
+  };
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={AppStyle.safeArea}>
-        <ImageBackground source={AppImages.background} resizeMode="cover">
-          <ScrollView
-            contentContainerStyle={{
-              paddingTop: insets.top,
-              paddingBottom: insets.bottom,
-              paddingLeft: insets.left,
-              paddingRight: insets.right,
-            }}
-          >
-            <Widget style={AppStyle.widgetContainer}>
-              <View>
-                <Image
-                  style={s.image}
-                  source={{ uri: event.images?.[0]?.url }}
-                />
-                {eventDetails.map((item, index) => (
-                  <RewriteLine key={index} {...item} iconName="MaterialIcons" />
-                ))}
-              </View>
-            </Widget>
-          </ScrollView>
+      <SafeAreaView style={ss.flex}>
+        <ImageBackground {...bgProps}>
+          <Animated.View style={animatedStyle}>
+            <ScrollView {...scrollViewProps}>
+              <Widget style={ss.container}>
+                <View>
+                  <Image style={ss.eventDetailImage} source={{ uri: event.images?.[0]?.url }} />
+                  {eventDetails.map((item, index) => (
+                    <RewriteLine key={index} {...item} iconName="MaterialIcons" />
+                  ))}
+                </View>
+              </Widget>
+            </ScrollView>
+          </Animated.View>
         </ImageBackground>
       </SafeAreaView>
     </SafeAreaProvider>
   );
 }
-
-const s = StyleSheet.create({
-  lineContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-    gap: 10,
-  },
-  lineText: {
-    flex: 1,
-  },
-  image: {
-    width: "100%",
-    height: 200,
-    resizeMode: "cover",
-    borderRadius: 10,
-    marginBottom: 16,
-  },
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

@@ -1,0 +1,1 @@
+export { WelcomeWidget, type WelcomeWidgetProps} from './WelcomeWidget';

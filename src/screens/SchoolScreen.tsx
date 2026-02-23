@@ -1,31 +1,25 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   SafeAreaView, SafeAreaProvider,
   useSafeAreaInsets
 } from "react-native-safe-area-context";
 import {
-  View,
-  ScrollView,
-  ImageBackground,
-  ActivityIndicator,
+  Animated,
+  ImageBackground, ImageBackgroundProps,
+  StyleProp, ViewStyle, ScrollViewProps
 } from "react-native";
-import { Colors, AppImages, AppStyle } from "@/constants";
-import { useSchool } from "@/hooks";
-import { capitalize } from "@/utils/helpers";
-import { BlockWidget, Widget } from "@/utils/widget";
+import { useAppStyle } from "@/constants";
 import {
-  SchoolType,
-  SchoolScreenProps,
-  EventType,
-  ImageType,
-  SchedulesType
-} from "@/utils/types";
+  useSchool, useTheme, useFadeScaleAnimation
+} from "@/hooks";
+import { 
+  SchoolContent, SchoolContentProps 
+} from "@/content";
 import {
-  SchoolCoordonnee, SchoolSlider,
-  SchoolSchedule, SchoolEvent
-} from "@/components";
+  SchoolType, ImageType,
+  SchoolScreenProps
+} from "@/types";
 
-const MemoizedSchoolSlider = React.memo(SchoolSlider);
 
 /**
  * Écran d'affichage des détails d'une école.
@@ -33,10 +27,11 @@ const MemoizedSchoolSlider = React.memo(SchoolSlider);
  * @param {SchoolScreenProps} props - Propriétés de navigation et de route.
  * @returns {JSX.Element} 
  */
-export function SchoolScreen({ route }: SchoolScreenProps) {
-
+export default function SchoolScreen({ route }: SchoolScreenProps) {
+  const { theme } = useTheme();
+  const { animatedStyle } = useFadeScaleAnimation({ duration: 400 });
   const { schoolid } = route.params;
-  const { school, loading } = useSchool(parseInt(schoolid));
+  const { school } = useSchool(parseInt(schoolid));
   const insets = useSafeAreaInsets();
 
   const images: ImageType[] = useMemo(() => school?.images ?? [], [school?.images]);
@@ -47,59 +42,47 @@ export function SchoolScreen({ route }: SchoolScreenProps) {
   }, [images]);
   const horaires = useMemo(() => school?.horaires ?? [], [school?.horaires]);
   const eventements = useMemo(() => school?.evenements ?? [], [school?.evenements]);
+  const ss = useAppStyle({ theme });
+
+  const scrollStyle: StyleProp<ViewStyle> = {
+    paddingTop: insets.top,
+    paddingBottom: insets.bottom,
+    paddingLeft: insets.left,
+    paddingRight: insets.right,
+    flexGrow: 1,
+    justifyContent: "center"
+  };
+  const scrollViewProps: ScrollViewProps = {
+    contentContainerStyle: scrollStyle,
+    contentInsetAdjustmentBehavior: "automatic",
+    showsVerticalScrollIndicator: false,
+    bounces: false,
+  };
+  const bgProps: ImageBackgroundProps = {
+    style: ss.flex,
+    source: theme.images.background,
+    resizeMode: "cover",
+  };
+  const contentProps: SchoolContentProps = {
+    school: school as SchoolType,
+    images: images,
+    logo: logo,
+    horaires: horaires,
+    evenements: eventements,
+    theme: theme,
+    scrollViewProps: scrollViewProps,
+    navigation: null
+  };
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={AppStyle.safeArea} >
-        <ImageBackground source={AppImages.background}>
-          <ScrollView
-            contentContainerStyle={[
-              {
-                paddingTop: insets.top,
-                paddingBottom: insets.bottom,
-                paddingLeft: insets.left,
-                paddingRight: insets.right,
-              }
-            ]}
-          >
-            <Widget style={AppStyle.widgetContainer}>
-              {loading ? (
-                <ActivityIndicator
-                  size="large"
-                  color={Colors.primary}
-                  style={{ marginTop: 50 }}
-                />
-              ) : (school && <SchoolContent 
-                school={school} images={images} logo={logo} horaires={horaires} evenements={eventements} />
-              )}
-            </Widget>
-          </ScrollView>
+      <SafeAreaView style={ss.flex} >
+        <ImageBackground {...bgProps}>
+          <Animated.View style={animatedStyle}>
+            <SchoolContent {...contentProps} />
+          </Animated.View>
         </ImageBackground>
       </SafeAreaView>
     </SafeAreaProvider>
   );
 }
-interface SchoolContentProps {
-  school: SchoolType;
-  images: ImageType[];
-  logo: ImageType | undefined;
-  horaires: SchedulesType[];
-  evenements: EventType[];
-}
-const SchoolContent = ({ school, images, logo, horaires, evenements }: SchoolContentProps) => (
-  <View style={{
-    marginBottom: 20,
-    marginTop: 10
-  }}>
-    <BlockWidget
-      iconName={logo ? 'Logo' : 'Ionicons'}
-      source={logo?.url ?? 'school-sharp'}
-      text={capitalize(school.nom || "")}
-      color={Colors.primary}
-    />
-    <SchoolCoordonnee school={school} />
-    <SchoolSchedule horaires={horaires} />
-    <SchoolEvent evenements={evenements} />
-    <MemoizedSchoolSlider images={images} />
-  </View>
-);

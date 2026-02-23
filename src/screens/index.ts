@@ -1,6 +1,7 @@
-export { HomeScreen } from '@/screens/HomeScreen';
-export { SearchScreen } from '@/screens/SearchScreen';
-export { EventScreen } from '@/screens/EventScreen';
-export { EventDetailScreen } from '@/screens/EventDetailScreen';
-export { SchoolScreen } from '@/screens/SchoolScreen';
-export { SupportScreen } from '@/screens/SupportScreen';
+export { default as HomeScreen } from '@/screens/HomeScreen';
+export { default as SchoolSearchScreen } from '@/screens/SchoolSearchScreen';
+export { default as EventScreen } from '@/screens/EventScreen';
+export { default as EventDetailScreen } from '@/screens/EventDetailScreen';
+export { default as SchoolScreen } from '@/screens/SchoolScreen';
+export { default as SupportScreen } from '@/screens/SupportScreen';
+export { default as SettingsScreen } from '@/screens/SettingsScreen';

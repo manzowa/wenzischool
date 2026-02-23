@@ -1,83 +1,64 @@
-import React, { useEffect, useRef } from 'react';
 import {
-  ScrollView,
-  ImageBackground,
-  ActivityIndicator,
-  Animated
+  Animated,
+  ImageBackground, ImageBackgroundProps,
+  StyleProp, ViewStyle, ScrollViewProps,
 } from "react-native";
 import {
-  SafeAreaView, SafeAreaProvider,
-  useSafeAreaInsets
+  useSafeAreaInsets,
+  SafeAreaView, SafeAreaProvider
 } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-
-import { useSchools } from "@/hooks";
-import { Colors, AppImages, AppStyle } from "@/constants";
 import {
-  LogoHorizontalWidget,
-  WelcomeWidget,
-  GistWidget,
-  SchoolWidget,
-  InfoWidget,
-  SupportWidget
-} from "@/utils/widget";
-import { SchoolStackParamList } from "@/utils/types";
+  useSchools, useTheme,
+  useFadeScaleAnimation
+} from "@/hooks";
+import { useAppStyle } from "@/constants";
+import { AppStackParamList } from "@/types";
+import { HomeContent, HomeContentProps } from '@/content';
 
-type HomeScreenProps = NativeStackScreenProps<SchoolStackParamList, "Home">;
+type HomeScreenProps = NativeStackScreenProps<AppStackParamList, "Home">;
 
-export function HomeScreen({ navigation }: HomeScreenProps) {
+export default function HomeScreen({ 
+  navigation }: HomeScreenProps
+) {
   const { schools, loading } = useSchools();
+  const { theme } = useTheme();
+  const { animatedStyle } = useFadeScaleAnimation({ duration: 400 });
   const insets = useSafeAreaInsets();
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const scaleAnim = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleAnim, {
-        toValue: 1, // Taille finale
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [fadeAnim, scaleAnim]);
+  const ss = useAppStyle({theme});
+
+  const bgProps: ImageBackgroundProps = {
+    style: ss.flex,
+    source: theme.images.background,
+    resizeMode: "cover",
+  };
+  const scrollStyle: StyleProp<ViewStyle> = {
+    paddingTop: insets.top,
+    paddingBottom: insets.bottom,
+    paddingLeft: insets.left,
+    paddingRight: insets.right,
+    flexGrow: 1,
+  };
+  const scrollViewProps: ScrollViewProps = {
+    contentContainerStyle: scrollStyle,
+    contentInsetAdjustmentBehavior: "automatic",
+    showsVerticalScrollIndicator: false,
+    bounces: false,
+  };
+  const contentProps: HomeContentProps = {
+    schools,
+    loading,
+    navigation,
+    theme,
+    scrollViewProps
+  };
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={AppStyle.safeArea}>
-        <ImageBackground
-          source={AppImages.background}
-          resizeMode="cover"
-        >
-          <Animated.View style={{ opacity: fadeAnim, transform: [{ scale: scaleAnim }] }}>
-            <ScrollView
-              contentContainerStyle={[
-                AppStyle.scrollContainer,
-                {
-                  paddingTop: insets.top,
-                  paddingBottom: insets.bottom,
-                  paddingLeft: insets.left,
-                  paddingRight: insets.right,
-                }
-              ]}
-            >
-              <LogoHorizontalWidget
-                source={AppImages.logoHorizontal}
-                style={AppStyle.logo}
-              />
-              <WelcomeWidget />
-              <GistWidget navigation={navigation} />
-              {loading ? (
-                <ActivityIndicator size="large" color={Colors.primary} />
-              ) : (
-                <SchoolWidget data={schools} />
-              )}
-              <InfoWidget navigation={navigation} />
-              <SupportWidget />
-            </ScrollView>
+      <SafeAreaView style={ss.flex}>
+        <ImageBackground {...bgProps}>
+          <Animated.View style={animatedStyle}>
+            <HomeContent {...contentProps} />
           </Animated.View>
         </ImageBackground>
       </SafeAreaView>

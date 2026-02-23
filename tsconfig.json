@@ -19,9 +19,7 @@
   "include": [
     "env.d.ts",
     "index.ts",
-    "src/**/*",
-    "tests/**/*",
-    "types/**/*"  // Add this if you have a custom types directory
+    "src/**/*"
   ],
   "types": [
     "node",

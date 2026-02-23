@@ -1,0 +1,1 @@
+export {default as MemoizedImageSlider } from '@/components/common/ImageSlider/ImageSlider';

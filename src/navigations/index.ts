@@ -1,2 +1,2 @@
-export { AppNavigation } from './AppNavigation';
-export { SchoolNavigation } from './SchoolNavigation';
+export { RootNavigator } from './RootNavigator';
+export { AppNavigator } from './AppNavigator';

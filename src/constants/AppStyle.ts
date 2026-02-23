@@ -79,17 +79,12 @@ const buttonTextBase: TextStyle = {
 export const AppStyle = StyleSheet.create({
   // Background image
   background: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    zIndex: -1,
+    flex: 1
   },
-  bg: { flex: 1},
-  safeArea: { flex: 1, backgroundColor: Colors.light },
+  bg: { flex: 1 },
+  safeArea: {
+    flex: 1
+  },
   logo: {
     width: 220,
     height: 40,
@@ -101,6 +96,7 @@ export const AppStyle = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 50,
+    
     ...Platform.select({
       ios: {
         shadowOffset: { width: 0, height: 4 },
@@ -123,6 +119,7 @@ export const AppStyle = StyleSheet.create({
   caption: textStyle(12, 18),
   medium: textStyle(10, 14),
   small: textStyle(8, 12),
+
   card: {
     marginTop: 10,
     paddingHorizontal: CARD_PADDING,
@@ -134,62 +131,74 @@ export const AppStyle = StyleSheet.create({
     backgroundColor: Colors.light,
     ...cardShadow,
   },
+
   cardHeader: {
     borderBottomWidth: 1,
     borderColor: Colors.primary,
     borderRadius: CARD_RADIUS,
     marginBottom: 5,
   },
+
   cardBody: {
     paddingHorizontal: CARD_PADDING,
   },
+
   cardRow: {
     flexDirection: 'row',
     gap: 2,
   },
+
   cardTitle: {
-     ...cardTextBase,
+    ...cardTextBase,
     fontSize: 14,
     fontWeight: '700',
   },
+
   cardSubtitle: {
     ...cardTextBase,
     fontSize: 16,
     fontWeight: '700',
   },
+
   cardText: {
     ...cardTextBase,
     fontSize: 14,
     lineHeight: 20,
     fontWeight: '400'
   },
+
   button: {
     ...buttonBase,
     ...buttonShadow,
   },
+
   buttonText: {
     ...buttonTextBase,
     fontSize: 12,
     paddingHorizontal: 12,
   },
+
   buttonTextDefault: {
     ...buttonTextBase,
     fontSize: 16,
     color: Colors.light,
   },
   buttonTextDark: {
-     ...buttonTextBase,
+    ...buttonTextBase,
     fontSize: 16,
     color: Colors.secondary,
   },
+
   defaultTheme: {
-    backgroundColor: Colors.light,
-    shadowColor: Colors.light
+    backgroundColor: Colors.primary,
+    shadowColor: Colors.primary,
   },
+
   darkTheme: {
     backgroundColor: Colors.primary,
     shadowColor: Colors.primary,
   },
+
   welcomeContainer: {
     backgroundColor: Colors.primary,
     borderRadius: 4,
@@ -292,6 +301,7 @@ export const AppStyle = StyleSheet.create({
     marginTop: 10,
     alignItems: "center",
   },
+
   boxShadow: {
     ...Platform.select({
       ios: {
@@ -313,5 +323,5 @@ export const AppStyle = StyleSheet.create({
     borderStyle: 'dotted',
     padding: 4,
     marginVertical: 10,
-  },
+  }
 });

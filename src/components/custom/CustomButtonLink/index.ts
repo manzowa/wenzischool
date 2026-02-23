@@ -1,0 +1,1 @@
+export { default as CustomButtonLink, type CustomButtonLinkProps } from '@/components/custom/CustomButtonLink/CustomButtonLink';

@@ -1,0 +1,1 @@
+export { SchoolWidget, type SchoolWidgetProps} from './SchoolWidget';
