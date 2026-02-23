@@ -70,7 +70,7 @@ const AppNavigator: React.FC = () => {
           backgroundColor: theme.colors.primary,
           borderTopWidth: 0,
           elevation: 10,
-          paddingTop: 8,
+          paddingTop: 0
         },
         tabBarLabelStyle: {
           fontWeight: '600',
