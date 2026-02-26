@@ -8,6 +8,7 @@
     "ios": "npx expo run:ios",
     "web": "npx expo start --web",
     "dev": "npx expo start --dev-client",
+    "buid": "eas build --platform android --profile development",
     "test": "npx jest --watchAll",
     "lint": "npx expo lint",
     "clean": "npm cache clean --force"
