@@ -5,6 +5,14 @@
     "requireCommit": true
   },
   "build": {
+    "development": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "channel": "development",
+      "releaseChannel": "development"
+    },
     "preview": {
       "distribution": "internal",
       "channel": "preview",
