@@ -10,7 +10,7 @@ import AppContent from '@/AppContent';
 export default function App() {
   const { isReady } = useAppInit();
   useOrientationLock(isReady);
-  useAndroidAppUpdate();
+  //useAndroidAppUpdate();
   return (
     <AuthProvider>
       <ThemeProvider>
