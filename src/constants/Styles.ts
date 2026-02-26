@@ -10,15 +10,15 @@ import { ThemeProps } from "@/theme";
 
 
 // @Props
-export type AppStyleProps = {
+type AppStyleProps = {
   theme: ThemeProps;
 }
 // @Return
-export type AppStyleResult = {
+type AppStyleResult = {
   styles: any;
 }
 
-const createStyles = ({ theme }: AppStyleProps) => {
+const create = ({ theme }: AppStyleProps) => {
 
   const { width } = Dimensions.get('window');
   const scale = width / 375; // 375 = largeur iPhone 11
@@ -493,8 +493,11 @@ const createStyles = ({ theme }: AppStyleProps) => {
 }
 
 // @hook use
-export const useAppStyle = ({ theme }: AppStyleProps) => {
-  return useMemo(() => createStyles({ theme }), [theme]);
+const useAppStyle = ({ theme }: AppStyleProps) => {
+  return useMemo<ReturnType<typeof create>>(() => create({ theme }), [theme]);
 };
 
-export default createStyles;
+export { 
+  create, useAppStyle, 
+  type AppStyleProps, type AppStyleResult 
+};

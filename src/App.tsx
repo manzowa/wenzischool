@@ -1,6 +1,8 @@
 import {AppLoading } from '@/components/common/Loading/AppLoading';
-import { useAppInit } from '@/hooks';
-import { useOrientationLock } from '@/hooks/useOrientationLock';
+import { 
+  useAppInit, useOrientationLock,
+  useAndroidAppUpdate 
+} from '@/hooks';
 import { AuthProvider, ThemeProvider } from '@/context';
 import AppContent from '@/AppContent';
 
@@ -8,7 +10,7 @@ import AppContent from '@/AppContent';
 export default function App() {
   const { isReady } = useAppInit();
   useOrientationLock(isReady);
-
+  useAndroidAppUpdate();
   return (
     <AuthProvider>
       <ThemeProvider>

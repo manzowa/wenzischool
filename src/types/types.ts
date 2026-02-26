@@ -1,6 +1,6 @@
-import { NavigatorScreenParams , RouteProp} from '@react-navigation/native';
+import { NavigatorScreenParams } from '@react-navigation/native';
 
-// 
+// Auth 
 export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
@@ -21,13 +21,3 @@ export type RootStackParamList = {
   EventDetail: { eventId: string};
   Profile: { userId: string };
 };
-// Type pour la route de l'écran School
-export type SchoolScreenRouteProp = RouteProp<RootStackParamList, 'School'>;
-export interface SchoolScreenProps {
-  route: SchoolScreenRouteProp;
-}
-// Type pour la route de l'écran EventDetail
-export type EventDetailScreenRouteProp = RouteProp<RootStackParamList, 'EventDetail'>;
-export interface EventDetailScreenProps {
-  route: EventDetailScreenRouteProp;
-}

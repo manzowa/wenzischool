@@ -22,8 +22,8 @@ export {  Loading } from './common/Loading/Loading';
 export { Card } from '@/components/common/Card/Card';
 export { Widget } from '@/components/common/widgets/Widget';
 export { 
-    SupportWidget, type SupportWidgetProps 
-} from '@/components/common/widgets/SupportWidget/SupportWidget';
+    AssistanceTechniqueWidget, type AssistanceTechniqueWidgetProps 
+} from '@/components/common/widgets/AssistanceTechniqueWidget/AssistanceTechniqueWidget';
 export {
     EssentialsWidget, type EssentialsWidgetProps 
 } from '@/components/common/widgets/EssentialsWidget/EssentialsWidget';
@@ -31,8 +31,8 @@ export {
     LogoHorizontalWidget, type LogoHorizontalWidgetProps
 } from '@/components/common/widgets/LogoHorizontalWidget/LogoHorizontalWidget';
 export { 
-    InfoWidget, type InfoWidgetProps 
-} from '@/components/common/widgets/InfoWidget/InfoWidget';
+    HelpWidget, type HelpWidgetProps 
+} from '@/components/common/widgets/HelpWidget/HelpWidget';
 export { 
     WelcomeWidget, type WelcomeWidgetProps
 } from '@/components/common/widgets/WelcomeWidget/WelcomeWidget';
@@ -57,10 +57,15 @@ export {
     type SettingsLanguageWidgetType
 } from '@/components/common/widgets/SettingsLanguageWidget/SettingsLanguageWidget';
 
+export { 
+    default as SettingsNotificationWidget, 
+    type SettingsNotificationWidgetProps  
+} from '@/components/common/widgets/SettingsNotificationWidget/SettingsNotificationWidget';
+
 export { SuspenseWrapper} from '@/components/common/SuspenseWrapper/SuspenseWrapper';
 
 export { CustomIcon, type IconName, type CustomIconProps } from '@/components/custom/CustomIcon/CustomIcon';
-export { CustomText, isTextVariant, type CustomTextProps } from '@/components/custom/CustomText/CustomText';
+export { CustomText, type CustomTextProps } from '@/components/custom/CustomText/CustomText';
 export { CustomButton, type CustomButtonProps } from '@/components/custom/CustomButton/CustomButtom';
 export { default as CustomButtonLink, type CustomButtonLinkProps } from '@/components/custom/CustomButtonLink/CustomButtonLink';
 export { 

@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import { View, FlatList, RefreshControl, RefreshControlProps} from "react-native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { EventItem } from "./EventItem";
+import { EventItem } from "@/shared/event/EventItem";
 import { Empty } from "@/components/common/Empty";
 import { 
   RootStackParamList, EventType, 

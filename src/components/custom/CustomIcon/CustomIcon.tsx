@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import {
   StyleProp,
   ViewStyle,
@@ -38,6 +38,7 @@ export type CustomIconProps = {
   size?: number;
   style?: StyleProp<ViewStyle | TextStyle | ImageStyle>;
   onPress?: () => void;
+  disabled?: boolean;
 };
 
 export const CustomIcon: React.FC<CustomIconProps> = ({
@@ -47,6 +48,7 @@ export const CustomIcon: React.FC<CustomIconProps> = ({
   size = 24,
   style,
   onPress,
+  disabled,
 }) => {
   
   // Handle Logo (image icon)
@@ -63,7 +65,7 @@ export const CustomIcon: React.FC<CustomIconProps> = ({
     );
 
     return onPress ? (
-      <TouchableOpacity onPress={onPress}>{image}</TouchableOpacity>
+      <TouchableOpacity onPress={onPress} disabled={disabled}>{image}</TouchableOpacity>
     ) : (
       image
     );

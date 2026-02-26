@@ -76,7 +76,13 @@
   "pause": "Pause",
   "start": "Start",
   "play": "Play",
-  "stop": "Stop"
+  "stop": "Stop",
+  "notification": "Notification",
+  "active": "Active",
+  "inactive": "Inactive"
+
+
+
 
 
 

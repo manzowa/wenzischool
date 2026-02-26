@@ -10,7 +10,7 @@ type NavigationProp = {
   navigate: (screen: string) => void;
 };
 
-export type InfoWidgetProps = {
+export type HelpWidgetProps = {
   theme: ThemeProps;
   navigation: NavigationProp;
   onPress?: () => void;
@@ -18,10 +18,10 @@ export type InfoWidgetProps = {
   message?: string;
   button_title?: string;
 };
-export const InfoWidget = ({ 
+export const HelpWidget = ({ 
   theme, navigation, 
   title, message, button_title
-}: InfoWidgetProps) => {
+}: HelpWidgetProps) => {
 
   const ss = useAppStyle({ theme });
   const handlePress = () => navigation.navigate("Support");
@@ -36,9 +36,9 @@ export const InfoWidget = ({
   return (
     <Widget style={ss.infoContainer}>
       <View style={ss.container}>
-        <CustomText color="light">{title}</CustomText>
+        <CustomText style={[{color: theme.colors.light}, ss.medium]}>{title}</CustomText>
         <View style={ss.infoRowContent}>
-          <CustomText type="caption" style={ss.infoTextRowContent}>{message}</CustomText>
+          <CustomText style={ss.infoTextRowContent}>{message}</CustomText>
           <CustomIcon {...iconProps} />
         </View>
         <Button title={button_title || "Aller sur Manzowa"} color={theme.colors.secondary} onPress={handlePress}/>

@@ -26,11 +26,6 @@ export default function SettingsScreen()
   const insets = useSafeAreaInsets();
   const ss = useAppStyle({ theme });
 
-  const handleChangeTheme = (value: string) => {
-    if (value === "light" || value === "dark" || value === "system") {
-      setMode(value);
-    }
-  };
   const btnBottomColor: StyleProp<ViewStyle> = {
     borderBottomColor: theme.colors.primary,
     borderBottomWidth: 1,
@@ -147,7 +142,6 @@ export default function SettingsScreen()
   const contentProps: SettingsContentProps = {
     themeOptions,
     languageOptions,
-    handleChangeTheme,
     scrollViewProps,
     themeResult: {
       theme,

@@ -3,23 +3,19 @@ import {
   SafeAreaView, SafeAreaProvider,
   useSafeAreaInsets
 } from "react-native-safe-area-context";
+import { useRoute, RouteProp } from "@react-navigation/native";
 import {
   Animated,
   ImageBackground, ImageBackgroundProps,
   StyleProp, ViewStyle, ScrollViewProps
 } from "react-native";
 import { useAppStyle } from "@/constants";
-import {
-  useSchool, useTheme, useFadeScaleAnimation
-} from "@/hooks";
-import { 
-  SchoolContent, SchoolContentProps 
-} from "@/content";
+import { useSchool, useTheme, useFadeScaleAnimation } from "@/hooks";
+import { SchoolContent, SchoolContentProps } from "@/content";
 import {
   SchoolType, ImageType,
-  SchoolScreenProps
+  RootStackParamList
 } from "@/types";
-
 
 /**
  * Écran d'affichage des détails d'une école.
@@ -27,7 +23,8 @@ import {
  * @param {SchoolScreenProps} props - Propriétés de navigation et de route.
  * @returns {JSX.Element} 
  */
-export default function SchoolScreen({ route }: SchoolScreenProps) {
+export default function SchoolScreen() {
+  const route =  useRoute<RouteProp<RootStackParamList, 'School'>>();
   const { theme } = useTheme();
   const { animatedStyle } = useFadeScaleAnimation({ duration: 400 });
   const { schoolid } = route.params;

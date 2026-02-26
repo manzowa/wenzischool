@@ -1,1 +1,1 @@
-export { CustomText,isTextVariant, type CustomTextProps } from './CustomText';
+export { CustomText, type CustomTextProps } from './CustomText';

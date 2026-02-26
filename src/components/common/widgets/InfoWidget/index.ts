@@ -1,1 +1,0 @@
-export { InfoWidget, type InfoWidgetProps } from './InfoWidget';

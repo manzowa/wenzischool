@@ -1,6 +1,5 @@
-// import i18n from "@/i18n";
-import { useTranslation } from 'react-i18next';
 import React, { useEffect, useRef, useState, useCallback, memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   FlatList,
@@ -8,8 +7,7 @@ import {
   useWindowDimensions,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  TouchableOpacity,
-  Text,
+  TouchableOpacity
 } from 'react-native';
 import { ImageType } from '@/types';
 import { ucfirst } from '@/utils/helpers';
@@ -35,8 +33,8 @@ const ImageItem = memo(({ item, width }:  ImageItemProps) => {
       />
       <View style={ss.imageSliderCaptionContainer}>
         <CustomText style={ss.imageSliderCaptionText}> {ucfirst(item?.title ?? "")}</CustomText>
-        <Text style={ss.imageSliderCaptionSubText}></Text>
-        <Text style={ss.imageSliderCaptionSubText}></Text>
+        <CustomText style={ss.imageSliderCaptionSubText}></CustomText>
+        <CustomText style={ss.imageSliderCaptionSubText}></CustomText>
       </View>
     </View>
   );

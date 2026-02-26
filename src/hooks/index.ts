@@ -1,24 +1,27 @@
-export { useSchools } from './useSchools';
+export { useSchools } from '@/hooks/useSchools';
 export { 
     useSchoolsBy,
     type useSchoolsByProps,
     type useSchoolsByResult
-} from './useSchoolsBy';
-export { useSchool } from './useSchool';
-export { useImages } from './useImages';
-export { useLinkActive } from './useLinkActive';
-export { useEvents } from './useEvents';
-export { useEvent } from './useEvent';
-export { useAppInit } from './useAppInit';
-export { useOrientationLock } from './useOrientationLock';
+} from '@/hooks/useSchoolsBy';
+export { useSchool } from '@/hooks/useSchool';
+export { useImages } from '@/hooks/useImages';
+export { useLinkActive } from '@/hooks/useLinkActive';
+export { useEvents } from '@/hooks/useEvents';
+export { useEvent } from '@/hooks/useEvent';
+export { useAppInit } from '@/hooks/useAppInit';
+export { useOrientationLock } from '@/hooks/useOrientationLock';
 export { 
     useTheme,
     type useThemeResult,
-} from './useTheme';
+} from '@/hooks/useTheme';
 export { 
     useFadeScaleAnimation, 
     type useFadeSacleAnimationProps, 
     type useFadeSacleAnimationResult
-} from './useFadeScaleAnimation';
+} from '@/hooks/useFadeScaleAnimation';
 
-export {  useLanguage } from "./useLanguage";
+export {  useLanguage } from "@/hooks/useLanguage";
+export { useNotifications } from "@/hooks/useNotifications";
+export { useAndroidAppUpdate } from "@/hooks/useAndroidAppUpdate";
+

@@ -1,20 +1,21 @@
+import React from 'react';
 import {
   ScrollView, ScrollViewProps
 } from 'react-native';
 import { useAppStyle } from '@/constants';
 import { Widget } from '@/components/common/widgets/Widget';
 import { useThemeResult } from '@/hooks';
-import { 
-  SettingsThemeWidget,  SettingsThemeWidgetType,
-  SettingsAccountWidget, 
-  SettingsLanguageWidget, SettingsLanguageWidgetType
+import {
+  SettingsThemeWidget, SettingsThemeWidgetType,
+  // SettingsAccountWidget, 
+  SettingsLanguageWidget, SettingsLanguageWidgetType,
+  SettingsNotificationWidget
 } from '@/components/common/widgets';
 
 
 export type SettingsContentProps = {
   themeOptions: SettingsThemeWidgetType[];
   languageOptions: SettingsLanguageWidgetType[];
-  handleChangeTheme: (value: string) => void;
   scrollViewProps?: ScrollViewProps;
   themeResult: useThemeResult;
   navigation?: null;
@@ -23,8 +24,7 @@ export type SettingsContentProps = {
 export default function SettingsContent(
   {
     themeOptions, languageOptions,
-    handleChangeTheme, scrollViewProps, 
-    themeResult, navigation
+    scrollViewProps, themeResult
   }: SettingsContentProps) {
   const { theme } = themeResult;
   const ss = useAppStyle({ theme });
@@ -33,6 +33,7 @@ export default function SettingsContent(
     <ScrollView {...scrollViewProps}>
       <Widget style={ss.container}>
         <SettingsThemeWidget options={themeOptions} />
+        <SettingsNotificationWidget />
         <SettingsLanguageWidget options={languageOptions} />
         {/* <SettingsAccountWidget /> */}
       </Widget>

@@ -1,160 +1,120 @@
-import { useTranslation } from 'react-i18next';
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useTranslation } from 'react-i18next';
 import { AppStackParamList } from "@/types";
 import { CustomIcon } from "@/components/custom";
-import { SuspenseWrapper } from '@/components/common/SuspenseWrapper';
 import { Platform } from 'react-native';
 import { useTheme } from '@/hooks';
-
-
+import {
+  HomeScreen, EventScreen,
+  SchoolSearchScreen, SettingsScreen
+} from '@/screens';
 
 const AppStack = createBottomTabNavigator<AppStackParamList>();
 
-// Lazy-loaded screens
-const HomeScreen = React.lazy(() => import('@/screens/HomeScreen'));
-const EventScreen = React.lazy(() => import('@/screens/EventScreen'));
-const SchoolSearchScreen = React.lazy(() => import('@/screens/SchoolSearchScreen'));
-const SettingsScreen = React.lazy(() => import('@/screens/SettingsScreen'));
 
-const LazyHomeScreen: React.FC<any> = (props) => (
-  <SuspenseWrapper>
-    <HomeScreen {...props} />
-  </SuspenseWrapper>
-);
-
-const LazyEventScreen: React.FC<any> = (props) => (
-  <SuspenseWrapper>
-    <EventScreen {...props} />
-  </SuspenseWrapper>
-);
-
-const LazySchoolSearchScreen: React.FC<any> = (props) => (
-  <SuspenseWrapper>
-    <SchoolSearchScreen {...props} />
-  </SuspenseWrapper>
-);
-
-const LazySettingsScreen: React.FC<any> = (props) => (
-  <SuspenseWrapper>
-    <SettingsScreen {...props} />
-  </SuspenseWrapper>
-);
-
-const AppNavigator: React.FC = () => {
+export const AppNavigator = () => {
   const { t } = useTranslation();
   const { theme } = useTheme();
 
+  // ✅ Memoized header font config
+  const headerTitleStyle = useMemo(
+    () => ({
+      fontWeight: 'bold' as const,
+      fontFamily: Platform.select({
+        ios: 'System',
+        android: 'sans-serif',
+        default: 'System',
+      }),
+    }),
+    []
+  );
+
+  // ✅ Memoized screen options (prevents recreation on every render)
+  const screenOptions = useMemo(
+    () => ({
+      headerTintColor: theme.colors.light,
+      headerStyle: {
+        backgroundColor: theme.colors.primary,
+        elevation: 4,
+      },
+      headerTitleStyle,
+      tabBarStyle: {
+        backgroundColor: theme.colors.primary,
+        borderTopWidth: 0,
+        elevation: 10,
+      },
+      tabBarLabelStyle: { fontWeight: '600' as const },
+      tabBarActiveTintColor: theme.colors.light,
+      tabBarInactiveTintColor: theme.colors.light,
+      tabBarShowLabel: true,
+      tabBarHideOnKeyboard: true,
+      lazy: true,
+    }),
+    [theme, headerTitleStyle]
+  );
+  const iconFuncStyle = (focused: boolean) => ({
+    transform: [{ scale: focused ? 1.15 : 1 }],
+  });
+  // ✅ Reusable icon renderer
+  const renderIcon = useCallback(
+    (focused: boolean, color: string, active: string, inactive: string) => (
+      <CustomIcon
+        iconName={"Ionicons"}
+        source={focused ? active : inactive}
+        color={color}
+        size={24}
+        style={iconFuncStyle(focused)}
+      />
+    ), []);
+
+
+
   return (
-    <AppStack.Navigator screenOptions={({ route }) =>
-    (
-      {
-        headerTintColor: theme.colors.light,
-        headerStyle: {
-          backgroundColor: theme.colors.primary,
-          elevation: 4,
-          shadowColor: theme.colors.primary,
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          shadowOffset: { width: 0, height: 4}
-        },
-        headerTitleStyle: {
-          fontWeight: 'bold',
-          fontFamily: Platform.select({
-            ios: 'System',
-            android: 'sans-serif',
-            default: 'System',
-          }),
-        },
-        tabBarStyle: {
-          backgroundColor: theme.colors.primary,
-          borderTopWidth: 0,
-          elevation: 10,
-          paddingTop: 0
-        },
-        tabBarLabelStyle: {
-          fontWeight: '600',
-        },
-        tabBarActiveTintColor: theme.colors.light, // Définit la couleur (icône et texte) de l'onglet actif
-        tabBarInactiveTintColor: theme.colors.light, // Définit la couleur (icône et texte) des onglets inactifs
-        tabBarShowLabel: true,// masque le texte des onglets
-        // // 🔥 Animation douce au changement d’onglet
-        tabBarHideOnKeyboard: true,
-      }
-    )
-    }
-    >
+    <AppStack.Navigator screenOptions={screenOptions}>
       <AppStack.Screen
         name="Home"
-        component={LazyHomeScreen}
+        component={HomeScreen}
         options={{
           title: t('home'),
           tabBarLabel: t('home'),
           tabBarIcon: ({ color, focused }) => (
-            <CustomIcon
-              iconName={"Ionicons"}
-              source={focused ? 'home-sharp' : 'home-outline'}
-              color={color} size={24}
-              style={{
-                transform: [{ scale: focused ? 1.15 : 1 }],
-              }}
-            />
+            renderIcon(focused, color, 'home-sharp', 'home-outline')
           ),
 
         }}
       />
       <AppStack.Screen
         name="Event"
-        component={LazyEventScreen}
+        component={EventScreen}
         options={{
           title: t('school_event'),
           tabBarLabel: t('school_event'),
           tabBarIcon: ({ color, focused }) => (
-            <CustomIcon
-              iconName={"Ionicons"}
-              source={focused ? 'trophy-sharp' : 'trophy-outline'}
-              color={color} size={24}
-              style={{
-                transform: [{ scale: focused ? 1.15 : 1 }],
-              }}
-            />
+            renderIcon(focused, color, 'trophy-sharp', 'trophy-outline')
           ),
         }}
       />
       <AppStack.Screen
         name="Search"
-        component={LazySchoolSearchScreen}
+        component={SchoolSearchScreen}
         options={{
           title: t('search'),
           tabBarLabel: t('search'),
           tabBarIcon: ({ color, focused }) => (
-            <CustomIcon
-              iconName={"Ionicons"}
-              source={focused ? 'search-sharp' : 'search-outline'}
-              color={color} size={24}
-              style={{
-                transform: [{ scale: focused ? 1.15 : 1 }],
-              }}
-            />
+            renderIcon(focused, color, 'search-sharp', 'search-outline')
           ),
 
         }}
       />
       <AppStack.Screen
         name="Settings"
-        component={LazySettingsScreen}
+        component={SettingsScreen}
         options={{
           title: t('settings'),
           tabBarLabel: t('settings'),
           tabBarIcon: ({ color, focused }) => (
-            <CustomIcon
-              iconName={"Ionicons"}
-              source={focused ? 'settings-sharp' : 'settings-outline'}
-              color={color} size={24}
-              style={{
-                transform: [{ scale: focused ? 1.15 : 1 }],
-              }}
-            />
+            renderIcon(focused, color, 'settings-sharp', 'settings-outline')
           ),
 
         }}
@@ -163,4 +123,3 @@ const AppNavigator: React.FC = () => {
   );
 }
 AppNavigator.displayName = "AppNavigator";
-export { AppNavigator };

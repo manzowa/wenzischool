@@ -9,8 +9,8 @@ import {
   Widget,
   WelcomeWidget, WelcomeWidgetProps,
   SchoolWidget, SchoolWidgetProps,
-  InfoWidget, InfoWidgetProps,
-  SupportWidget, SupportWidgetProps,
+  HelpWidget, HelpWidgetProps,
+  AssistanceTechniqueWidget, AssistanceTechniqueWidgetProps,
   LogoHorizontalWidget,
   LogoHorizontalWidgetProps,
   EssentialsWidget, EssentialsWidgetProps, 
@@ -59,14 +59,14 @@ export default function HomeContent({
     title: t('recently_added'),
     message: t('no_school')
   };
-  const infoWidgetProps: InfoWidgetProps = {
+  const helpWidgetProps: HelpWidgetProps = {
     theme: theme,
     navigation: navigation,
     title: t('info_help_title'),
     message: t('info_help_message'),
     button_title: t('info_help_button')
   };
-  const supportContentProps: SupportWidgetProps = {
+  const assistanceTechniqueWidgetProps: AssistanceTechniqueWidgetProps = {
     theme: theme,
     title: t('support_title'),
     message: t('support_message')
@@ -85,8 +85,8 @@ export default function HomeContent({
             : (<SchoolWidget {...schoolWidgetProps} />)
         }
       </Widget>
-      <InfoWidget {...infoWidgetProps} />
-      <SupportWidget {...supportContentProps} />
+      <HelpWidget {...helpWidgetProps} />
+      <AssistanceTechniqueWidget {...assistanceTechniqueWidgetProps} />
     </ScrollView>
   );
 }

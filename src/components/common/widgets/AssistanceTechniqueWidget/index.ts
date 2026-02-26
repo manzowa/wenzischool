@@ -1,0 +1,1 @@
+export { AssistanceTechniqueWidget, type AssistanceTechniqueWidgetProps } from './AssistanceTechniqueWidget';

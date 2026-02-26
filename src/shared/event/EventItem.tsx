@@ -1,18 +1,20 @@
+import React, { useMemo, useEffect, useRef } from "react";
 import { useTranslation } from 'react-i18next';
-import React, { useMemo, useEffect, useRef} from "react";
 import { 
   View, Image, ImageProps, 
   Animated, TouchableOpacity,
   StyleProp, ViewStyle,
 } from "react-native";
 import { 
- CustomText, CustomIcon, CustomIconProps, 
+ CustomText, CustomIcon, 
+ CustomIconProps, 
 } from "@/components/custom";
 import { SchoolType } from "@/types";
 import { 
-  formatDate, isDatePassedOrValid 
+  formatDate, 
+  isDatePassedOrValid 
 } from "@/utils";
-import { createStyles, useAppStyle } from "@/constants";
+import { useAppStyle } from "@/constants";
 import { useTheme } from "@/hooks";
 import { ThemeProps } from "@/theme";
 
@@ -114,7 +116,7 @@ export type EventItemProps = {
 export const EventItem = ({titre, date, lieu, images, onPress }: EventItemProps) => {
   const { t } = useTranslation();
   const { theme } = useTheme();
-  const ss = useMemo(() => createStyles({theme}), [theme]);
+  const ss = useAppStyle({ theme });
   const scale = useRef(new Animated.Value(1)).current;
   const formaDated: string = formatDate(date, false, t("local"));
 

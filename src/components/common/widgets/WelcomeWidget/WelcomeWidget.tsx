@@ -21,7 +21,7 @@ export const WelcomeWidget = ({ theme, message }: WelcomeWidgetProps) => {
   ];
   return (
     <Widget style={containerStyle}>
-      <CustomText color="light" type="caption">{message}</CustomText>
+      <CustomText style={[ss.extraSmall, {color: theme.colors.light}]}>{message}</CustomText>
     </Widget>
   );
 };

@@ -10,8 +10,9 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { useRoute, RouteProp } from "@react-navigation/native";
 import { useAppStyle } from "@/constants";
-import { EventDetailScreenProps } from "@/types";
+import { RootStackParamList } from "@/types";
 import { 
   Widget 
 } from "@/components/common/widgets";
@@ -25,12 +26,11 @@ import { Loading } from "@/components/common/Loading";
 type RewriteLineProps = {
   iconName?: any;
   source?: string;
-  type?: string;
   text?: string;
-  color?: any;
+
 };
 
-const RewriteLine = ({ iconName, source, type, text, color }: RewriteLineProps) => {
+const RewriteLine = ({ iconName, source, text }: RewriteLineProps) => {
   const { theme } = useTheme();
   const ss = useAppStyle({ theme });
 
@@ -38,7 +38,7 @@ const RewriteLine = ({ iconName, source, type, text, color }: RewriteLineProps) 
     <View style={ss.eventDetailContainer}>
       {
         source === "title" ? (
-          <CustomText style={[{ color: theme.colors.primary }, ss.medium, ss.bold]}>
+          <CustomText style={[{ color: theme.colors.secondary }, ss.medium]}>
             {text}
           </CustomText>
         ) : (
@@ -55,7 +55,8 @@ const RewriteLine = ({ iconName, source, type, text, color }: RewriteLineProps) 
   )
 };
 
-export default function EventDetailScreen({ route }: EventDetailScreenProps) {
+export default function EventDetailScreen() {
+  const route =  useRoute<RouteProp<RootStackParamList, 'EventDetail'>>();
   const { t } = useTranslation();
   const { theme } = useTheme();
   const ss = useAppStyle({ theme });
@@ -78,7 +79,7 @@ export default function EventDetailScreen({ route }: EventDetailScreenProps) {
   if (!event) {
     return (
       <SafeAreaView style={[ss.flex]}>
-        <CustomText type="body" style={{ color: theme.colors.secondary }}>
+        <CustomText style={[{ color: theme.colors.secondary }, ss.medium]}>
           Aucune donnée disponible
         </CustomText>
       </SafeAreaView>
@@ -86,14 +87,12 @@ export default function EventDetailScreen({ route }: EventDetailScreenProps) {
   }
 
   const eventDetails = [
-    { source: "title", type: "bodyBold", text: event.titre, color: "primary" },
-    { source: "description", type: "caption", text: event.description, color: "secondary" },
-    { source: "place", type: "caption", text: event.lieu, color: "secondary" },
+    { source: "title", text: event.titre },
+    { source: "description",  text: event.description },
+    { source: "place", text: event.lieu },
     {
       source: "calendar-today",
-      type: "caption",
       text: formatDate(event.date, true, t("local"), t('from')),
-      color: "secondary",
     },
   ];
   const scrollStyle: StyleProp<ViewStyle> = {
@@ -123,12 +122,10 @@ export default function EventDetailScreen({ route }: EventDetailScreenProps) {
           <Animated.View style={animatedStyle}>
             <ScrollView {...scrollViewProps}>
               <Widget style={ss.container}>
-                <View>
                   <Image style={ss.eventDetailImage} source={{ uri: event.images?.[0]?.url }} />
                   {eventDetails.map((item, index) => (
                     <RewriteLine key={index} {...item} iconName="MaterialIcons" />
                   ))}
-                </View>
               </Widget>
             </ScrollView>
           </Animated.View>

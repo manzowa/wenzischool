@@ -37,7 +37,7 @@ export function SchoolWidget({ data , title, message}: SchoolWidgetProps) {
   );
   return (
     <Widget style={ss.widgetContainer}>
-      <CustomText style={{color: theme.colors.secondary}}>{title}</CustomText>
+      <CustomText style={[{color: theme.colors.secondary},ss.medium]}>{title}</CustomText>
       {data && data.length > 0 ? (
         <FlatList
           data={data}

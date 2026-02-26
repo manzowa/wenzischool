@@ -35,8 +35,8 @@ const Item = React.memo(({ iconName, source, id, nom, adresses }: ItemProps) => 
     <View style={ss.schoolItemContainer} key={id.toString()}>
       <CustomIcon {...iconProps}/>
       <View style={ss.schoolItemTextContainer}>
-        <CustomText type="captionBold"  style={{ color: theme.colors.primary }}>{nom}</CustomText>
-        <CustomText type="caption" style={{ color: theme.colors.secondary }}>{adresses}</CustomText>
+        <CustomText style={[{ color: theme.colors.primary }, ss.small]}>{nom}</CustomText>
+        <CustomText style={[{ color: theme.colors.secondary }, ss.extraSmall]}>{adresses}</CustomText>
       </View>
     </View>
   )
