@@ -16,7 +16,8 @@ export const images = {
     townIcon: require('../../assets/images/Kinshasa.webp'),
     flagFr: require('../../assets/images/flag-fr.webp'),
     flagEn: require('../../assets/images/flag-en.webp'),
-    flagCd: require('../../assets/images/flag-cd.webp')
+    flagCd: require('../../assets/images/flag-cd.webp'),
+    splashIcon: require('../../assets/images/splash-icon.webp')
 } as const;
 
 

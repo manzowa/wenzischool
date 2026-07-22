@@ -101,11 +101,14 @@ const create = ({ theme }: AppStyleProps) => {
       color: theme.colors.primary,
     },
     button: {
-      paddingVertical: 12,
+      paddingVertical: 20,
       paddingHorizontal: 24,
       marginBottom: 10,
       borderRadius: 8,
       alignItems: 'center'
+    },
+    disabled: {
+      opacity: 0.5
     },
     // Icon style
     icon: {

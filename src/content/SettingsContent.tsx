@@ -7,7 +7,7 @@ import { Widget } from '@/components/common/widgets/Widget';
 import { useThemeResult } from '@/hooks';
 import {
   SettingsThemeWidget, SettingsThemeWidgetType,
-  // SettingsAccountWidget, 
+  SettingsAccountWidget, 
   SettingsLanguageWidget, SettingsLanguageWidgetType,
   SettingsNotificationWidget
 } from '@/components/common/widgets';
@@ -35,7 +35,7 @@ export default function SettingsContent(
         <SettingsThemeWidget options={themeOptions} />
         <SettingsNotificationWidget />
         <SettingsLanguageWidget options={languageOptions} />
-        {/* <SettingsAccountWidget /> */}
+        <SettingsAccountWidget />
       </Widget>
     </ScrollView>
   );

@@ -40,14 +40,20 @@
         }
       ],
       "expo-font",
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-secure-store",
+       [
+        "expo-dev-client",
+        {
+          "launchMode": "most-recent"
+        }
+      ]
     ],
     "extra": {
       "eas": {
         "projectId": "ab3b39e1-9899-417c-9140-0f0c89b70679"
       }
     },
-    "jsEngine": "hermes",
     "ios": {}
   }
 }

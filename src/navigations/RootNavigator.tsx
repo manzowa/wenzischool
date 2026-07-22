@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { RootStackParamList } from '@/types';
 import { AppNavigator } from '@/navigations/AppNavigator';
+import { AuthNavigator } from '@/navigations/AuthNavigator';
 import { useTheme } from '@/hooks';
 import { 
   SchoolScreen, 
@@ -26,6 +27,7 @@ export const RootNavigator = () => {
         headerTintColor: theme.colors.light,
       }}
      >
+      <RootStack.Screen name="Auth" component={AuthNavigator} options={{ headerShown: false }} />
       <RootStack.Screen name="App" component={AppNavigator} options={{ headerShown: false }} />
       <RootStack.Screen name="School" component={SchoolScreen} options={{ title: t('school') }} />
       <RootStack.Screen name="Support" component={SupportScreen} options={{ title: t('support_center')}} />

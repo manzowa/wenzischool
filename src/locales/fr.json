@@ -1,8 +1,8 @@
 {
-  "welcome": "Bienvenue",
+  "welcome": "Bienvenue sur Wenzischool ",
   "change_language": "Changer de langue",
   "account": "Compte",
-  "account_text": "Connectez-vous ou créez un compte pour accéder à votre espace, ajouter un événement et bien plus encore.",
+  "account_text": "Connectez-vous ou créez un compte pour accéder à votre espace, ajoutez un événement et beaucoup plus.",
   "lang": "Langue",
   "theme": "Thème",
   "fr": "Français",
@@ -79,5 +79,8 @@
   "stop": "Arrêter",
   "notification": "Notification",
   "active": "Active",
-  "inactive": "Inactive"
+  "inactive": "Inactive",
+  "hide": "Masquer",
+  "show": "Afficher"
+
 }

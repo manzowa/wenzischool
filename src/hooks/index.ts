@@ -23,5 +23,5 @@ export {
 
 export {  useLanguage } from "@/hooks/useLanguage";
 export { useNotifications } from "@/hooks/useNotifications";
-export { useAndroidAppUpdate } from "@/hooks/useAndroidAppUpdate";
+// export { useAndroidAppUpdate } from "@/hooks/useAndroidAppUpdate";
 

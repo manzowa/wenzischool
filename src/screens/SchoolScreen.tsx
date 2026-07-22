@@ -10,7 +10,10 @@ import {
   StyleProp, ViewStyle, ScrollViewProps
 } from "react-native";
 import { useAppStyle } from "@/constants";
-import { useSchool, useTheme, useFadeScaleAnimation } from "@/hooks";
+import { 
+  useSchool, useTheme, 
+  useFadeScaleAnimation 
+} from "@/hooks";
 import { SchoolContent, SchoolContentProps } from "@/content";
 import {
   SchoolType, ImageType,

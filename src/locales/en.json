@@ -1,5 +1,5 @@
 {
-  "welcome": "Welcome",
+  "welcome": "Welcome to Wenzischool",
   "change_language": "Change Language",
   "account": "Account",
   "account_text": "Log in or create an account to access your space, add an event and much more.",
@@ -79,7 +79,11 @@
   "stop": "Stop",
   "notification": "Notification",
   "active": "Active",
-  "inactive": "Inactive"
+  "inactive": "Inactive",
+  "hide": "Hide",
+  "show": "Show"
+
+
 
 
 

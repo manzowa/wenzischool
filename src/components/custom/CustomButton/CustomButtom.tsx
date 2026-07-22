@@ -7,7 +7,7 @@ import {
   TextStyle,
   GestureResponderEvent,
 } from "react-native";
-import { AppStyle, useAppStyle} from "@/constants";
+import { useAppStyle} from "@/constants";
 import { useTheme } from "@/hooks";
 
 
@@ -35,7 +35,7 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
 
   return (
     <TouchableOpacity
-      style={[ss.button, style, disabled && AppStyle.disabled]}
+      style={[ss.button, style, disabled && ss.disabled]}
       onPress={onPress}
       activeOpacity={0.7}
       disabled={disabled}

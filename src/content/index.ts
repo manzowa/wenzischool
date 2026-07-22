@@ -7,4 +7,5 @@ export {
     default as SettingsContent, 
     type SettingsContentProps
 } from './SettingsContent';
+export { default as LoginContent, type LoginContentProps } from './LoginContent';
 

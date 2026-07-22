@@ -5,3 +5,5 @@ export { default as EventDetailScreen } from '@/screens/EventDetailScreen';
 export { default as SchoolScreen } from '@/screens/SchoolScreen';
 export { default as SupportScreen } from '@/screens/SupportScreen';
 export { default as SettingsScreen } from '@/screens/SettingsScreen';
+export { default as LoginScreen } from '@/screens/LoginScreen';
+export { default as RegisterScreen } from '@/screens/RegisterScreen';

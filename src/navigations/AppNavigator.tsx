@@ -17,6 +17,7 @@ export const AppNavigator = () => {
   const { t } = useTranslation();
   const { theme } = useTheme();
 
+
   // ✅ Memoized header font config
   const headerTitleStyle = useMemo(
     () => ({
@@ -42,7 +43,10 @@ export const AppNavigator = () => {
       tabBarStyle: {
         backgroundColor: theme.colors.primary,
         borderTopWidth: 0,
-        elevation: 10,
+        elevation: 0,
+        shadowColor: 'rgba(0, 0, 0, 0.2)', // Ombre subtile
+        shadowOpacity: 1, // Ombre visible
+        shadowRadius: 5, // Taille de l'ombre
       },
       tabBarLabelStyle: { fontWeight: '600' as const },
       tabBarActiveTintColor: theme.colors.light,
@@ -67,7 +71,6 @@ export const AppNavigator = () => {
         style={iconFuncStyle(focused)}
       />
     ), []);
-
 
 
   return (

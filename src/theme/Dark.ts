@@ -16,7 +16,8 @@ export const images = {
     townIcon: require('../../assets/images/Kinshasa-dark.webp'),
     flagFr: require('../../assets/images/flag-fr-dark.webp'),
     flagEn: require('../../assets/images/flag-en-dark.webp'),
-    flagCd: require('../../assets/images/flag-cd-dark.webp')
+    flagCd: require('../../assets/images/flag-cd-dark.webp'),
+    splashIcon: require('../../assets/images/splash-icon-dark.webp')
 } as const;
 
 const DarkTheme: Theme = {

@@ -8,7 +8,8 @@ type ImageKey =
   | 'townIcon'
   | 'flagFr'
   | 'flagEn'
-  | 'flagCd';
+  | 'flagCd'
+  | 'splashIcon';
 
 type ImageType = Partial<Record<ImageKey, ImageSourcePropType>>;
 
