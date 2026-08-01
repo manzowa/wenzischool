@@ -10,25 +10,23 @@
       "android": {
         "buildType": "apk"
       },
-      "channel": "development",
-      "releaseChannel": "development"
+      "channel": "development"
     },
 
     "preview": {
       "distribution": "internal",
-      "channel": "preview",
-      "releaseChannel": "preview"
+      "channel": "preview"
     },
 
     "production": {
       "autoIncrement": true,
       "channel": "production",
-      "releaseChannel": "production",
       "android": {
         "buildType": "app-bundle"
       },
       "env": {
-        "EXPO_ENABLE_PROGUARD": "true"
+        "EXPO_ENABLE_PROGUARD": "true",
+        "EXPO_ANDROID_GRADLE_EXTRA_ARGS": "-Pandroid.enableR8.fullMode=true"
       }
     }
   },
