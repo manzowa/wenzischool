@@ -6,15 +6,17 @@ module.exports = defineConfig([
   {
     rules: {
       'react/no-unescaped-entities': 'off',
+      'import/no-named-as-default-member': 'off',
     },
+
     ignores: ['dist/*'],
+
     settings: {
       'import/resolver': {
         'babel-module': {
           root: ['./'],
           alias: {
             '@': './src',
-            '@env': './.env'
           },
         },
       },

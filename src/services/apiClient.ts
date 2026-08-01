@@ -1,9 +1,12 @@
-import axios from "axios";
-import { API_URL } from "@env";
+import { create } from "axios";
+import Constants from "expo-constants";
 import { getTokens, saveTokens, deleteTokens } from "@/storage";
 
+const API_URL = Constants.expoConfig?.extra?.API_URL;
+
+
 // --- INSTANCE ---
-const apiClient = axios.create({
+const apiClient = create({
   baseURL: API_URL,
   timeout: 10000,
 });
