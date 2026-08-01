@@ -13,17 +13,26 @@
       "channel": "development",
       "releaseChannel": "development"
     },
+
     "preview": {
       "distribution": "internal",
       "channel": "preview",
       "releaseChannel": "preview"
     },
+
     "production": {
       "autoIncrement": true,
       "channel": "production",
-      "releaseChannel": "production"
+      "releaseChannel": "production",
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_ENABLE_PROGUARD": "true"
+      }
     }
   },
+
   "submit": {
     "production": {}
   }
